@@ -7,9 +7,9 @@
           :before-upload="beforeAvatarUpload"
           :on-success="uploadAvatarSuccess"
           :on-error="uploadAvatarFail"
+          :action="uploadUrl"
           name="avatar"
-          class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/">
+          class="avatar-uploader">
           <img v-if="form.avatar" :src="form.avatar" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
@@ -21,8 +21,8 @@
       <el-form-item label="手机号码" prop="mobile"><el-col :span="6"><el-input v-model="form.mobile" type="text"/></el-col></el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
-          <el-radio label="1">男</el-radio>
-          <el-radio label="0">女</el-radio>
+          <el-radio :label="true">男</el-radio>
+          <el-radio :label="false">女</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="冻结" prop="locked">
@@ -44,11 +44,11 @@
 <script>
 import request from '@/utils/request'
 import { notBlankValidate } from '@/utils/validate'
-// import { Message } from 'element-ui'
 
 export default {
   data() {
     return {
+      uploadUrl: process.env.BASE_API + '/sys/sysUserWebController/uploadAvatar',
       form: {
         id: null,
         avatar: '',
@@ -64,7 +64,7 @@ export default {
       rules: {
         username: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
         password: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        gender: [{ required: true, trigger: 'blur', validate: notBlankValidate }]
+        gender: [{ required: true, trigger: 'blur', message: '性别不能为空' }]
       },
       loading: false
     }
@@ -72,6 +72,21 @@ export default {
   created() {
     if (this.$route.params && this.$route.params.id) {
       console.log('id----' + this.$route.params.id)
+      this.loading = true
+      return new Promise((resolve, reject) => {
+        request({
+          url: '/sys/sysUserWebController/get',
+          method: 'get',
+          params: { id: this.$route.params.id }
+        }).then(response => {
+          this.loading = false
+          console.log(response)
+          this.form = response.data
+        }).catch(error => {
+          this.loading = false
+          reject(error)
+        })
+      })
     }
   },
   methods: {
@@ -94,7 +109,7 @@ export default {
           request({
             url: '/sys/sysUserWebController/save',
             method: 'post',
-            data: 'avatar=' + this.form.avatar + '&username=' + this.form.username + '&password=' + this.form.password + '&nickname=' + this.form.nickname + '&realName=' + this.form.realName + '&gender=' + this.form.gender + '&mobile=' + this.form.mobile + '&locked=' + this.form.locked + '&remarks=' + this.form.remarks
+            data: 'id=' + this.form.id + '&avatar=' + this.form.avatar + '&username=' + this.form.username + '&password=' + this.form.password + '&nickname=' + this.form.nickname + '&realName=' + this.form.realName + '&gender=' + this.form.gender + '&mobile=' + this.form.mobile + '&locked=' + this.form.locked + '&remarks=' + this.form.remarks
           }).then(response => {
             console.log(response)
             this.$message({
