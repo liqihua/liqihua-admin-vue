@@ -15,11 +15,15 @@ service.interceptors.request.use(
     /* if (store.getters.token) {
       config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }*/
-    if (config.data && config.data.length > 0) {
-      console.log(config.data)
+    if (config.data && typeof (config.data) === 'object') {
+      let params = ''
       for (var key in config.data) {
-        console.log(key + ':' + config.data[key])
+        if (!config.data[key]) {
+          config.data[key] = ''
+        }
+        params += (key + '=' + config.data[key] + '&')
       }
+      config.data = params
     }
     return config
   },

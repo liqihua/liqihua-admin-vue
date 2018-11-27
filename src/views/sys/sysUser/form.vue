@@ -71,7 +71,6 @@ export default {
   },
   created() {
     if (this.$route.params && this.$route.params.id) {
-      console.log('id----' + this.$route.params.id)
       this.loading = true
       return new Promise((resolve, reject) => {
         request({
@@ -80,7 +79,6 @@ export default {
           params: { id: this.$route.params.id }
         }).then(response => {
           this.loading = false
-          console.log(response)
           this.form = response.data
         }).catch(error => {
           this.loading = false
@@ -105,11 +103,14 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
+          if (this.form.avatar) {
+            this.form.avatar = this.form.avatar.replace('blob:', '')
+          }
           this.loading = true
           request({
             url: '/sys/sysUserWebController/save',
             method: 'post',
-            data: 'id=' + this.form.id + '&avatar=' + this.form.avatar + '&username=' + this.form.username + '&password=' + this.form.password + '&nickname=' + this.form.nickname + '&realName=' + this.form.realName + '&gender=' + this.form.gender + '&mobile=' + this.form.mobile + '&locked=' + this.form.locked + '&remarks=' + this.form.remarks
+            data: this.form
           }).then(response => {
             console.log(response)
             this.$message({
@@ -134,9 +135,7 @@ export default {
       })
     },
     uploadAvatarSuccess(res, file) {
-      console.log(res)
-      console.log(file)
-      this.form.avatar = URL.createObjectURL(file.raw)
+      this.form.avatar = res.data
     },
     uploadAvatarFail(err, file) {
       this.$message.error(err)
