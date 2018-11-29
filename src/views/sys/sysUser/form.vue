@@ -15,7 +15,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="用户账号" prop="username"><el-col :span="6"><el-input v-model="form.username" type="text"/></el-col></el-form-item>
-      <el-form-item label="用户密码" prop="password"><el-col :span="6"><el-input v-model="form.password" type="password"/></el-col></el-form-item>
+      <el-form-item label="用户密码" prop="password"><el-col :span="6"><el-input v-if="showInputPassword" v-model="form.password" type="password"/><el-button v-if="showBtnPassword" size="mini" type="text" @click="showInputPassword = true; showBtnPassword = false">重设密码</el-button></el-col></el-form-item>
       <el-form-item label="用户姓名" prop="realName"><el-col :span="6"><el-input v-model="form.realName" type="text"/></el-col></el-form-item>
       <el-form-item label="用户昵称" prop="nickname"><el-col :span="6"><el-input v-model="form.nickname" type="text"/></el-col></el-form-item>
       <el-form-item label="手机号码" prop="mobile"><el-col :span="6"><el-input v-model="form.mobile" type="text"/></el-col></el-form-item>
@@ -43,12 +43,15 @@
 
 <script>
 import request from '@/utils/request'
-import { notBlankValidate } from '@/utils/validate'
+import { notBlankValidate, isBlank } from '@/utils/validate'
 
 export default {
   data() {
     return {
+      loading: false,
       uploadUrl: process.env.BASE_API + '/sys/sysUserWebController/uploadAvatar',
+      showInputPassword: true,
+      showBtnPassword: false,
       form: {
         id: null,
         avatar: '',
@@ -63,15 +66,16 @@ export default {
       },
       rules: {
         username: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        password: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
         gender: [{ required: true, trigger: 'blur', message: '性别不能为空' }]
-      },
-      loading: false
+      }
     }
   },
   created() {
+    this.init()
     if (this.$route.params && this.$route.params.id) {
       this.loading = true
+      this.showInputPassword = false
+      this.showBtnPassword = true
       return new Promise((resolve, reject) => {
         request({
           url: '/sys/sysUserWebController/get',
@@ -86,6 +90,9 @@ export default {
         })
       })
     }
+  },
+  mounted() {
+    console.log(this.form)
   },
   methods: {
     init() {
@@ -103,8 +110,12 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          if (this.form.avatar) {
-            this.form.avatar = this.form.avatar.replace('blob:', '')
+          if (this.showInputPassword && isBlank(this.form.password)) {
+            this.$message({
+              message: '请输入密码',
+              type: 'error'
+            })
+            return false
           }
           this.loading = true
           request({

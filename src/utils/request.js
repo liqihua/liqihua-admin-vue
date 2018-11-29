@@ -21,8 +21,10 @@ service.interceptors.request.use(
         if (!config.data[key]) {
           config.data[key] = ''
         }
+        console.log(key + ':' + config.data[key])
         params += (key + '=' + config.data[key] + '&')
       }
+      console.log(params)
       config.data = params
     }
     return config

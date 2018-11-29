@@ -52,7 +52,7 @@ export function isNotBlank(str) {
 
 /* 检验input的值是否为空 */
 export const notBlankValidate = (rule, value, callback) => {
-  if (!isBlank(value)) {
+  if (isBlank(value)) {
     callback(new Error('请输入'))
   } else {
     callback()
