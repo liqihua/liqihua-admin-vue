@@ -53,7 +53,8 @@ export const constantRouterMap = [
         path: 'add',
         name: 'sysUser-add',
         component: () => import('@/views/sys/sysUser/form'),
-        meta: { title: '用户添加', icon: 'table' }
+        meta: { title: '用户添加', icon: 'table' },
+        hidden: true
       },
       {
         path: 'edit/:id',
@@ -61,6 +62,21 @@ export const constantRouterMap = [
         component: () => import('@/views/sys/sysUser/form'),
         meta: { title: '用户编辑', icon: 'table' },
         hidden: true
+      }
+    ]
+  },
+  {
+    path: '/sysMenu',
+    component: Layout,
+    redirect: '/sysMenu/add',
+    name: 'sysMenu',
+    meta: { title: '系统菜单', icon: 'example' },
+    children: [
+      {
+        path: 'add',
+        name: 'sysMenu-add',
+        component: () => import('@/views/sys/sysMenu/form'),
+        meta: { title: '菜单添加', icon: 'table' }
       }
     ]
   },

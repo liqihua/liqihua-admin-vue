@@ -15,7 +15,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="用户账号" prop="username"><el-col :span="6"><el-input v-model="form.username" type="text"/></el-col></el-form-item>
-      <el-form-item label="用户密码" prop="password"><el-col :span="6"><el-input v-if="showInputPassword" v-model="form.password" type="password"/><el-button v-if="showBtnPassword" size="mini" type="text" @click="showInputPassword = true; showBtnPassword = false">重设密码</el-button></el-col></el-form-item>
+      <el-form-item label="用户密码" prop="password"><el-col :span="6"><el-input v-if="showInputPassword" v-model="form.password" type="password"/><el-button v-if="showBtnPassword" size="mini" type="text" @click="resetPassword">重设密码</el-button></el-col></el-form-item>
       <el-form-item label="用户姓名" prop="realName"><el-col :span="6"><el-input v-model="form.realName" type="text"/></el-col></el-form-item>
       <el-form-item label="用户昵称" prop="nickname"><el-col :span="6"><el-input v-model="form.nickname" type="text"/></el-col></el-form-item>
       <el-form-item label="手机号码" prop="mobile"><el-col :span="6"><el-input v-model="form.mobile" type="text"/></el-col></el-form-item>
@@ -36,14 +36,16 @@
       <el-form-item>
         <el-button :loading="loading" type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="onCancel">取消</el-button>
+        <el-button @click="logForm">log</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+const SHA = require('jssha')
 import request from '@/utils/request'
-import { notBlankValidate, isBlank } from '@/utils/validate'
+import { makeParam } from '@/utils/strutil.js'
 
 export default {
   data() {
@@ -65,17 +67,20 @@ export default {
         remarks: ''
       },
       rules: {
-        username: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        gender: [{ required: true, trigger: 'blur', message: '性别不能为空' }]
+        username: [{ required: true, trigger: 'blur', message: '账号不能为空' }],
+        password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
       }
     }
   },
   created() {
+    console.log('created')
     this.init()
     if (this.$route.params && this.$route.params.id) {
+      console.log('id:' + this.$route.params.id)
       this.loading = true
       this.showInputPassword = false
       this.showBtnPassword = true
+      this.rules.password = null
       return new Promise((resolve, reject) => {
         request({
           url: '/sys/sysUserWebController/get',
@@ -92,7 +97,8 @@ export default {
     }
   },
   mounted() {
-    console.log(this.form)
+    console.log('mounted')
+    this.init()
   },
   methods: {
     init() {
@@ -106,24 +112,24 @@ export default {
       this.form.mobile = ''
       this.form.locked = false
       this.form.remarks = ''
+      console.log('---init')
     },
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          if (this.showInputPassword && isBlank(this.form.password)) {
-            this.$message({
-              message: '请输入密码',
-              type: 'error'
-            })
-            return false
-          }
           this.loading = true
+          var formData = this.form
+          if (formData.password) {
+            var shaObj = new SHA('SHA-1', 'TEXT')
+            shaObj.update(formData.password)
+            formData.password = shaObj.getHash('HEX')
+          }
+          var data = makeParam(this.form)
           request({
             url: '/sys/sysUserWebController/save',
             method: 'post',
-            data: this.form
+            data: data
           }).then(response => {
-            console.log(response)
             this.$message({
               message: '保存成功',
               type: 'success'
@@ -145,6 +151,9 @@ export default {
         type: 'warning'
       })
     },
+    logForm() {
+      console.log(this.form)
+    },
     uploadAvatarSuccess(res, file) {
       this.form.avatar = res.data
     },
@@ -162,6 +171,11 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+    resetPassword() {
+      this.showInputPassword = true
+      this.showBtnPassword = false
+      this.rules.password = [{ required: true, trigger: 'blur', message: '密码不能为空' }]
     }
   }
 }

@@ -17,7 +17,7 @@
 
 <script>
 import request from '@/utils/request'
-import { notBlankValidate } from '@/utils/validate'
+import { makeParam } from '@/utils/strutil.js'
 
 export default {
   data() {
@@ -30,10 +30,10 @@ export default {
         hide: false
       },
       rules: {
-        title: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        routerName: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        rank: [{ required: true, trigger: 'blur', validate: notBlankValidate }],
-        hide: [{ required: true, trigger: 'blur', validate: notBlankValidate }]
+        title: [{ required: true, trigger: 'blur', message: '菜单标题不能为空' }],
+        routerName: [{ required: true, trigger: 'blur', message: '路由名称不能为空' }],
+        rank: [{ required: true, trigger: 'blur', message: '排序值不能为空' }],
+        hide: [{ required: true, trigger: 'blur', message: '是否隐藏不能为空' }]
       },
       loading: false
     }
@@ -54,11 +54,19 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
+          if (isNaN(this.form.rank)) {
+            this.$message({
+              message: '排序值必须是数字',
+              type: 'error'
+            })
+            return false
+          }
           this.loading = true
+          var data = makeParam(this.form)
           request({
             url: '/sys/sysMenuWebController/save',
             method: 'post',
-            data: 'avatar=' + this.form.avatar + '&username=' + this.form.username + '&password=' + this.form.password + '&nickname=' + this.form.nickname + '&realName=' + this.form.realName + '&gender=' + this.form.gender + '&mobile=' + this.form.mobile + '&locked=' + this.form.locked + '&remarks=' + this.form.remarks
+            data: data
           }).then(response => {
             console.log(response)
             this.$message({

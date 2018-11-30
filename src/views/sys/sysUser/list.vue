@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
+    <el-tabs>
+      <el-tab-pane label="用户列表"/>
+      <el-tab-pane><router-link slot="label" to="/sysUser/add">用户添加</router-link></el-tab-pane>
+    </el-tabs>
     <el-table
       v-loading="loading"
       :data="list"
