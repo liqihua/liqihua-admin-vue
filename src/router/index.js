@@ -68,10 +68,16 @@ export const constantRouterMap = [
   {
     path: '/sysMenu',
     component: Layout,
-    redirect: '/sysMenu/add',
+    redirect: '/sysMenu/list',
     name: 'sysMenu',
     meta: { title: '系统菜单', icon: 'example' },
     children: [
+      {
+        path: 'list',
+        name: 'sysMenu-list',
+        component: () => import('@/views/sys/sysMenu/list'),
+        meta: { title: '菜单列表', icon: 'table' }
+      },
       {
         path: 'add',
         name: 'sysMenu-add',
