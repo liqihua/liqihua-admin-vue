@@ -68,7 +68,6 @@ export default {
             method: 'post',
             data: data
           }).then(response => {
-            console.log(response)
             this.$message({
               message: '保存成功',
               type: 'success'
@@ -82,6 +81,12 @@ export default {
         } else {
           return false
         }
+      })
+    },
+    onCancel() {
+      this.$message({
+        message: 'cancel!',
+        type: 'warning'
       })
     }
   }

@@ -12,21 +12,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    /* if (store.getters.token) {
-      config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-    }*/
-    /* if (config.data && typeof (config.data) === 'object') {
-      let params = ''
-      for (var key in config.data) {
-        if (!config.data[key]) {
-          console.log(typeof (config.data[key]))
-          config.data[key] = ''
-        }
-        params += (key + '=' + config.data[key] + '&')
-      }
-      config.data = params
-      console.log('request.use config.data:' + config.data)
-    }*/
+    console.log(config.url)
     return config
   },
   error => {
@@ -42,6 +28,7 @@ service.interceptors.response.use(
     /**
      * code为非10000是抛错 可结合自己业务进行修改
      */
+    console.log(response.data)
     const res = response.data
     if (res.code !== 10000) {
       Message({
