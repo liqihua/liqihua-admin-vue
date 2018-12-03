@@ -82,7 +82,15 @@ export const constantRouterMap = [
         path: 'add',
         name: 'sysMenu-add',
         component: () => import('@/views/sys/sysMenu/form'),
-        meta: { title: '菜单添加', icon: 'table' }
+        meta: { title: '菜单添加', icon: 'table' },
+        hidden: true
+      },
+      {
+        path: 'edit/:id',
+        name: 'sysMenu-edit',
+        component: () => import('@/views/sys/sysMenu/form'),
+        meta: { title: '菜单编辑', icon: 'table' },
+        hidden: true
       }
     ]
   },
