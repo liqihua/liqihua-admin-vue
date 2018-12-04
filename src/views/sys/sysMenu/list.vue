@@ -4,29 +4,62 @@
       <el-tab-pane label="菜单列表"/>
       <el-tab-pane><router-link slot="label" to="/sysMenu/add">新增菜单</router-link></el-tab-pane>
     </el-tabs>
-    <el-tree :data="menuTree">
-      <div slot-scope="{ data }" class="div-tree-node">
-        <span class="span-menu-field">{{ data.title }}</span>
-        <span class="span-menu-field">{{ data.routerName }}</span>
-        <span class="span-menu-field">{{ data.hide?'隐藏':'显示' }}</span>
-        <span class="span-menu-field">{{ data.rank }}</span>
-        <span class="span-tree-node-operate">
-          <router-link :to="'/sysMenu/edit/'+data.id">编辑</router-link>
-          <a href="javascript:;" @click="toDelete(data.id)">删除</a>
-        </span>
-      </div>
-    </el-tree>
+    <zk-table
+      ref="table"
+      :data="menuTree"
+      :columns="columns"
+      :stripe="true"
+      :border="true"
+      :tree-type="true"
+      :expand-type="false"
+      :selection-type="false">
+      <template slot="hide" slot-scope="scope">
+        {{ scope.row.hide?'隐藏':'正常' }}
+      </template>
+      <template slot="operation" slot-scope="scope">
+        <router-link :to="'/sysMenu/edit/'+scope.row.id">编辑</router-link>
+        <a href="javascript:;" @click="toDelete(scope.row.id)">删除</a>
+      </template>
+    </zk-table>
   </div>
 </template>
 
 <script>
 import request from '@/utils/request'
+import Vue from 'vue'
+import ZkTable from 'vue-table-with-tree-grid'
+Vue.use(ZkTable)
 
 export default {
   data() {
     return {
       loading: false,
-      menuTree: null
+      menuTree: [],
+      columns: [
+        {
+          label: '菜单明恒',
+          prop: 'title'
+        },
+        {
+          label: '路由名称',
+          prop: 'routerName'
+        },
+        {
+          label: '显示',
+          prop: 'hide',
+          type: 'template',
+          template: 'hide'
+        },
+        {
+          label: '排序',
+          prop: 'rank'
+        },
+        {
+          label: '操作',
+          type: 'template',
+          template: 'operation'
+        }
+      ]
     }
   },
   created() {
@@ -70,11 +103,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-  .div-tree-node{width: 100%;}
-  .span-tree-node-operate {float:right;}
-  .span-tree-node-operate>a,.span-tree-node-operate>router-link{margin-right: 20px;}
-  .span-menu-field{width: 120px;display: inline-block;font-family: 微软雅黑;text-align: left;}
-  .span-menu-field:not(:first-child){margin-left: 20px;}
-</style>

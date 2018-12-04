@@ -2,7 +2,7 @@
   <div v-loading="loading" class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="父级菜单">
-        <el-tree ref="menuTree" :data="menuTree" :check-on-click-node="true" node-key="id" show-checkbox accordion @check="menuCheck" />
+        <el-tree ref="menuTree" :data="menuTree" :check-on-click-node="true" :check-strictly="true" node-key="id" show-checkbox accordion @check="menuCheck" />
       </el-form-item>
       <el-form-item label="菜单标题" prop="title"><el-col :span="6"><el-input v-model="form.title" type="text"/></el-col></el-form-item>
       <el-form-item label="路由名称" prop="routerName"><el-col :span="6"><el-input v-model="form.routerName" type="text"/></el-col></el-form-item>
@@ -108,7 +108,7 @@ export default {
       }
       return menuList
     },
-    menuCheck(clickNode) {
+    menuCheck(clickNode,checkedArr) {
       this.$refs.menuTree.setCheckedKeys([clickNode.id])
       this.form.pid = clickNode.id
     },
@@ -155,30 +155,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
 
