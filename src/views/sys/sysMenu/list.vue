@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import request from '@/utils/request'
 import Vue from 'vue'
 import ZkTable from 'vue-table-with-tree-grid'
 Vue.use(ZkTable)
+import { getTree, toDelete } from '@/api/sys/sysMenu'
 
 export default {
   data() {
@@ -68,10 +68,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      request({
-        url: '/sys/sysMenuWebController/getTree',
-        method: 'get'
-      }).then(response => {
+      getTree().then(response => {
         this.menuTree = response.data
         this.loading = false
       }).catch(error => {
@@ -86,11 +83,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        request({
-          url: '/sys/sysMenuWebController/delete',
-          method: 'post',
-          data: 'id=' + id
-        }).then(() => {
+        toDelete(id).then(() => {
           this.getList()
           this.loading = false
         }).catch(error => {

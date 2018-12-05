@@ -43,14 +43,15 @@
 </template>
 
 <script>
-const SHA = require('jssha')
+import API from '@/api/config/api'
 import { get, save } from '@/api/sys/sysUser'
+const SHA = require('jssha')
 
 export default {
   data() {
     return {
       loading: false,
-      uploadUrl: process.env.BASE_API + '/sys/sysUserWebController/uploadAvatar',
+      uploadUrl: API.SYS_USER.UPLOAD_AVATAR,
       showInputPassword: true,
       showBtnPassword: false,
       form: {
@@ -122,8 +123,8 @@ export default {
               message: '保存成功',
               type: 'success'
             })
-            this.init()
             this.loading = false
+            this.$router.push("/sysUser/list");
           }).catch(error => {
             console.log(error)
             this.loading = false

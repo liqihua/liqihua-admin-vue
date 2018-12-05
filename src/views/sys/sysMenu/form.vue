@@ -2,7 +2,16 @@
   <div v-loading="loading" class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="父级菜单">
-        <el-tree ref="menuTree" :data="menuTree" :check-on-click-node="true" :check-strictly="true" node-key="id" show-checkbox accordion @check="menuCheck" />
+        <el-tree
+          ref="menuTree"
+          :data="menuTree"
+          :check-on-click-node="true"
+          :check-strictly="true"
+          :filter-node-method="filterNode"
+          node-key="id"
+          show-checkbox
+          accordion
+          @check="menuCheck" />
       </el-form-item>
       <el-form-item label="菜单标题" prop="title"><el-col :span="6"><el-input v-model="form.title" type="text"/></el-col></el-form-item>
       <el-form-item label="路由名称" prop="routerName"><el-col :span="6"><el-input v-model="form.routerName" type="text"/></el-col></el-form-item>
@@ -19,8 +28,7 @@
 </template>
 
 <script>
-import request from '@/utils/request'
-import { makeParam } from '@/utils/strutil.js'
+import { get, getTree, save } from '@/api/sys/sysMenu'
 
 export default {
   data() {
@@ -46,16 +54,13 @@ export default {
     this.getMenuTree().then(() => {
       return new Promise((resolve, reject) => {
         if (this.$route.params && this.$route.params.id) {
-          request({
-            url: '/sys/sysMenuWebController/get',
-            method: 'get',
-            params: { id: this.$route.params.id }
-          }).then(response => {
+          get(this.$route.params.id).then(response => {
             this.form = response.data
             if (this.form.pid) {
               console.log(this.form.pid)
               this.$refs.menuTree.setCheckedKeys([this.form.pid])
             }
+            this.$refs.menuTree.filter(this.$route.params.id)
             this.loading = false
             resolve()
           }).catch(error => {
@@ -83,10 +88,7 @@ export default {
     getMenuTree() {
       return new Promise((resolve, reject) => {
         this.loading = true
-        request({
-          url: '/sys/sysMenuWebController/getTree',
-          method: 'get'
-        }).then(response => {
+        getTree().then(response => {
           this.menuTree = this.makeTreeLabel(response.data)
           this.loading = false
           resolve()
@@ -112,6 +114,13 @@ export default {
       this.$refs.menuTree.setCheckedKeys([clickNode.id])
       this.form.pid = clickNode.id
     },
+    filterNode(id,data){
+      if(id == data.id){
+        data.disabled = true
+      }
+      return true
+
+    },
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -123,19 +132,15 @@ export default {
             return false
           }
           this.loading = true
-          var data = makeParam(this.form)
-          request({
-            url: '/sys/sysMenuWebController/save',
-            method: 'post',
-            data: data
-          }).then(response => {
+          save(this.form).then(response => {
             this.$message({
               message: '保存成功',
               type: 'success'
             })
-            this.init()
-            this.getMenuTree()
+            //this.init()
+            //this.getMenuTree()
             this.loading = false
+            this.$router.push("/sysMenu/list");
           }).catch(error => {
             console.log(error)
             this.loading = false

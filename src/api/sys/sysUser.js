@@ -1,6 +1,6 @@
 import request from '@/utils/request'
-import { makeParam } from '@/utils/strutil.js'
-import API from '@/api/config/api.js'
+import { makeParam } from '@/utils/strutil'
+import API from '@/api/config/api'
 
 export function page(page, pageSize) {
   return request({

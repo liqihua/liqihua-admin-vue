@@ -8,7 +8,14 @@ const API = {
     PAGE: '/sys/sysUserWebController/page',
     GET: '/sys/sysUserWebController/get',
     DELETE: '/sys/sysUserWebController/delete',
-    SAVE: '/sys/sysUserWebController/save'
+    SAVE: '/sys/sysUserWebController/save',
+    UPLOAD_AVATAR: process.env.BASE_API + '/sys/sysUserWebController/uploadAvatar'
+  },
+  SYS_MENU: {
+    GET_TREE: '/sys/sysMenuWebController/getTree',
+    DELETE: '/sys/sysMenuWebController/delete',
+    GET: '/sys/sysMenuWebController/get',
+    SAVE: '/sys/sysMenuWebController/save',
   }
 }
 
