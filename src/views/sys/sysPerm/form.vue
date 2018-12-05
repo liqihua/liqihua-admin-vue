@@ -41,6 +41,7 @@ export default {
               type: 'success'
             })
             this.loading = false
+            this.$router.push('/sysPerm/list')
           }).catch(error => {
             console.log(error)
             this.loading = false
