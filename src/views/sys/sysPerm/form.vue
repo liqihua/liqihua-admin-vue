@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+import { makeParam } from '@/utils/strutil.js'
 
 export default {
   data() {
@@ -31,7 +33,26 @@ export default {
   },
   methods: {
     onSubmit() {
-
+      this.$refs.form.validate(valid => {
+        if(valid) {
+          this.loading = true
+          var data = makeParam(this.form)
+          request({
+            url: '/sys/sysPermWebController/save',
+            method: 'post',
+            data: data
+          }).then(response => {
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+            this.loading = false
+          }).catch(error => {
+            console.log('catch:',error)
+            this.loading = false
+          })
+        }
+      })
     },
     onCancel() {
 

@@ -44,8 +44,7 @@
 
 <script>
 const SHA = require('jssha')
-import request from '@/utils/request'
-import { makeParam } from '@/utils/strutil.js'
+import { get, save } from '@/api/sys/sysUser'
 
 export default {
   data() {
@@ -76,17 +75,12 @@ export default {
     console.log('created')
     this.init()
     if (this.$route.params && this.$route.params.id) {
-      console.log('id:' + this.$route.params.id)
       this.loading = true
       this.showInputPassword = false
       this.showBtnPassword = true
       this.rules.password = null
       return new Promise((resolve, reject) => {
-        request({
-          url: '/sys/sysUserWebController/get',
-          method: 'get',
-          params: { id: this.$route.params.id }
-        }).then(response => {
+        get(this.$route.params.id).then(response => {
           this.loading = false
           this.form = response.data
         }).catch(error => {
@@ -112,7 +106,6 @@ export default {
       this.form.mobile = ''
       this.form.locked = false
       this.form.remarks = ''
-      console.log('---init')
     },
     onSubmit() {
       this.$refs.form.validate(valid => {
@@ -124,12 +117,7 @@ export default {
             shaObj.update(formData.password)
             formData.password = shaObj.getHash('HEX')
           }
-          var data = makeParam(this.form)
-          request({
-            url: '/sys/sysUserWebController/save',
-            method: 'post',
-            data: data
-          }).then(response => {
+          save(formData).then(response => {
             this.$message({
               message: '保存成功',
               type: 'success'

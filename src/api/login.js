@@ -1,8 +1,9 @@
 import request from '@/utils/request'
+import API from '@/api/config/api.js'
 
 export function login(username, password) {
   return request({
-    url: '/sys/sysLoginWebController/login',
+    url: API.LOGIN.LOGIN,
     method: 'post',
     data: 'username=' + username + '&password=' + password
   })
@@ -10,7 +11,7 @@ export function login(username, password) {
 
 export function getInfo(token) {
   return request({
-    url: '/sys/sysLoginWebController/getInfo',
+    url: API.LOGIN.GET_INFO,
     method: 'get',
     params: { token }
   })
@@ -18,7 +19,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/sys/sysLoginWebController/logout',
+    url: API.LOGIN.LOGOUT,
     method: 'get'
   })
 }

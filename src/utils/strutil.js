@@ -9,4 +9,5 @@ export function makeParam(data) {
     }
     return params
   }
+  return data
 }

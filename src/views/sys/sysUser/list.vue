@@ -5,9 +5,7 @@
       <el-tab-pane><router-link slot="label" to="/sysUser/add">新增用户</router-link></el-tab-pane>
     </el-tabs>
     <el-table
-      v-loading="loading"
       :data="list"
-      element-loading-text="Loading"
       border
       fit
       highlight-current-row>
@@ -36,8 +34,7 @@
 </template>
 
 <script>
-import request from '@/utils/request'
-import { page } from '@/api/sys/sysUser'
+import { page, toDelete } from '@/api/sys/sysUser'
 
 export default {
   filters: {
@@ -52,8 +49,8 @@ export default {
   },
   data() {
     return {
-      list: null,
       loading: false,
+      list: null,
       page: 1,
       pageSize: 30
     }
@@ -67,6 +64,9 @@ export default {
       page(this.page, this.pageSize).then(response => {
         this.list = response.data.records
         this.loading = false
+      }).catch(error => {
+        console.log(error)
+        this.loading = false
       })
     },
     toDelete(id) {
@@ -76,11 +76,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.loading = true
-        request({
-          url: '/sys/sysUserWebController/delete',
-          method: 'post',
-          data: 'id=' + id
-        }).then(response => {
+        toDelete(id).then(response => {
           this.$message({
             message: '删除成功',
             type: 'success'
