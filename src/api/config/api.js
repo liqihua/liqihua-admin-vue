@@ -16,6 +16,10 @@ const API = {
     DELETE: '/sys/sysMenuWebController/delete',
     GET: '/sys/sysMenuWebController/get',
     SAVE: '/sys/sysMenuWebController/save',
+  },
+  SYS_PERM: {
+    PAGE: '/sys/sysPermWebController/page',
+    SAVE: '/sys/sysPermWebController/save',
   }
 }
 

@@ -1,5 +1,5 @@
-import request from '@/utils/request'
 import API from '@/api/config/api'
+import request from '@/utils/request'
 import { makeParam } from '@/utils/strutil'
 
 export function getTree() {
