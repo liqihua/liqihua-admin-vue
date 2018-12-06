@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { save } from '@/api/sys/sysPerm'
+import { apiSave } from '@/api/sys/sysPerm'
 
 export default {
   data() {
@@ -35,7 +35,7 @@ export default {
       this.$refs.form.validate(valid => {
         if(valid) {
           this.loading = true
-          save(this.form).then(response => {
+          apiSave(this.form).then(response => {
             this.$message({
               message: '保存成功',
               type: 'success'

@@ -2,7 +2,7 @@ import API from '@/api/config/api'
 import request from '@/utils/request'
 import { makeParam } from '@/utils/strutil'
 
-export function page(page, pageSize) {
+export function apiPage(page, pageSize) {
   return request({
     url: API.SYS_PERM.PAGE,
     method: 'get',
@@ -10,7 +10,7 @@ export function page(page, pageSize) {
   })
 }
 
-export function save(formData) {
+export function apiSave(formData) {
   var param = makeParam(formData)
   return request({
     url: API.SYS_PERM.SAVE,
