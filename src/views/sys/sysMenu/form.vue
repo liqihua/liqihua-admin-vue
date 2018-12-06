@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get, getTree, save } from '@/api/sys/sysMenu'
+import { apiGet, apiGetTree, apiSave } from '@/api/sys/sysMenu'
 
 export default {
   data() {
@@ -54,7 +54,7 @@ export default {
     this.getMenuTree().then(() => {
       return new Promise((resolve, reject) => {
         if (this.$route.params && this.$route.params.id) {
-          get(this.$route.params.id).then(response => {
+          apiGet(this.$route.params.id).then(response => {
             this.form = response.data
             if (this.form.pid) {
               console.log(this.form.pid)
@@ -88,7 +88,7 @@ export default {
     getMenuTree() {
       return new Promise((resolve, reject) => {
         this.loading = true
-        getTree().then(response => {
+        apiGetTree().then(response => {
           this.menuTree = this.makeTreeLabel(response.data)
           this.loading = false
           resolve()
@@ -132,13 +132,11 @@ export default {
             return false
           }
           this.loading = true
-          save(this.form).then(response => {
+          apiSave(this.form).then(response => {
             this.$message({
               message: '保存成功',
               type: 'success'
             })
-            //this.init()
-            //this.getMenuTree()
             this.loading = false
             this.$router.push("/sysMenu/list");
           }).catch(error => {

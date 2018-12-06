@@ -2,14 +2,14 @@ import API from '@/api/config/api'
 import request from '@/utils/request'
 import { makeParam } from '@/utils/strutil'
 
-export function getTree() {
+export function apiGetTree() {
   return request({
     url: API.SYS_MENU.GET_TREE,
     method: 'get'
   })
 }
 
-export function get(id) {
+export function apiGet(id) {
   return request({
     url: API.SYS_MENU.GET,
     method: 'get',
@@ -17,7 +17,7 @@ export function get(id) {
   })
 }
 
-export function save(formData) {
+export function apiSave(formData) {
   var param = makeParam(formData)
   return request({
     url: '/sys/sysMenuWebController/save',
@@ -26,7 +26,7 @@ export function save(formData) {
   })
 }
 
-export function toDelete(id) {
+export function apiDelete(id) {
   return request({
     url: API.SYS_MENU.DELETE,
     method: 'post',

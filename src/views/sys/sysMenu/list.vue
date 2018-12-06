@@ -18,7 +18,7 @@
       </template>
       <template slot="operation" slot-scope="scope">
         <router-link :to="'/sysMenu/edit/'+scope.row.id">编辑</router-link>
-        <a href="javascript:;" @click="toDelete(scope.row.id)">删除</a>
+        <a href="javascript:;" @click="doDelete(scope.row.id)">删除</a>
       </template>
     </zk-table>
   </div>
@@ -28,7 +28,7 @@
 import Vue from 'vue'
 import ZkTable from 'vue-table-with-tree-grid'
 Vue.use(ZkTable)
-import { getTree, toDelete } from '@/api/sys/sysMenu'
+import { apiGetTree, apiDelete } from '@/api/sys/sysMenu'
 
 export default {
   data() {
@@ -68,7 +68,7 @@ export default {
   methods: {
     getList() {
       this.loading = true
-      getTree().then(response => {
+      apiGetTree().then(response => {
         this.menuTree = response.data
         this.loading = false
       }).catch(error => {
@@ -76,14 +76,14 @@ export default {
         this.loading = false
       })
     },
-    toDelete(id) {
+    doDelete(id) {
       this.$confirm('确定删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.loading = true
-        toDelete(id).then(() => {
+        apiDelete(id).then(() => {
           this.getList()
           this.loading = false
         }).catch(error => {
