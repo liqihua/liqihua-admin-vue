@@ -26,7 +26,7 @@
       <el-table-column label="更新时间" align="center">
         <template slot-scope="scope">
           <router-link :to="'/sysUser/edit/'+scope.row.id">编辑</router-link><br>
-          <a @click="toDelete(scope.row.id)">删除</a>
+          <a @click="doDelete(scope.row.id)">删除</a>
         </template>
       </el-table-column>
     </el-table>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { page, toDelete } from '@/api/sys/sysUser'
+import { apiPage, apiDelete } from '@/api/sys/sysUser'
 
 export default {
   filters: {
@@ -56,12 +56,12 @@ export default {
     }
   },
   created() {
-    this.toList()
+    this.getList()
   },
   methods: {
-    toList() {
+    getList() {
       this.loading = true
-      page(this.page, this.pageSize).then(response => {
+      apiPage(this.page, this.pageSize).then(response => {
         this.list = response.data.records
         this.loading = false
       }).catch(error => {
@@ -69,19 +69,19 @@ export default {
         this.loading = false
       })
     },
-    toDelete(id) {
+    doDelete(id) {
       this.$confirm('确定删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.loading = true
-        toDelete(id).then(response => {
+        apiDelete(id).then(response => {
           this.$message({
             message: '删除成功',
             type: 'success'
           })
-          this.toList()
+          this.getList()
         }).catch(error => {
           console.log(error)
         })

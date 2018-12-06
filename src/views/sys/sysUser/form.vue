@@ -44,7 +44,7 @@
 
 <script>
 import API from '@/api/config/api'
-import { get, save } from '@/api/sys/sysUser'
+import { apiGet, apiSave } from '@/api/sys/sysUser'
 const SHA = require('jssha')
 
 export default {
@@ -73,7 +73,6 @@ export default {
     }
   },
   created() {
-    console.log('created')
     this.init()
     if (this.$route.params && this.$route.params.id) {
       this.loading = true
@@ -81,7 +80,7 @@ export default {
       this.showBtnPassword = true
       this.rules.password = null
       return new Promise((resolve, reject) => {
-        get(this.$route.params.id).then(response => {
+        apiGet(this.$route.params.id).then(response => {
           this.loading = false
           this.form = response.data
         }).catch(error => {
@@ -90,10 +89,6 @@ export default {
         })
       })
     }
-  },
-  mounted() {
-    console.log('mounted')
-    this.init()
   },
   methods: {
     init() {
@@ -118,7 +113,7 @@ export default {
             shaObj.update(formData.password)
             formData.password = shaObj.getHash('HEX')
           }
-          save(formData).then(response => {
+          apiSave(formData).then(response => {
             this.$message({
               message: '保存成功',
               type: 'success'
