@@ -23,7 +23,7 @@
       <el-table-column label="锁定" align="center"><template slot-scope="scope">{{ scope.row.locked?'冻结':'正常' }}</template></el-table-column>
       <el-table-column label="创建时间" align="center"><template slot-scope="scope">{{ scope.row.createDate }}</template></el-table-column>
       <el-table-column label="更新时间" align="center"><template slot-scope="scope">{{ scope.row.updateDate }}</template></el-table-column>
-      <el-table-column label="更新时间" align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/sysUser/edit/'+scope.row.id">编辑</router-link><br>
           <a @click="doDelete(scope.row.id)">删除</a>
@@ -56,10 +56,10 @@ export default {
     }
   },
   created() {
-    this.getList()
+    this.doPage()
   },
   methods: {
-    getList() {
+    doPage() {
       this.loading = true
       apiPage(this.page, this.pageSize).then(response => {
         this.list = response.data.records
@@ -81,7 +81,7 @@ export default {
             message: '删除成功',
             type: 'success'
           })
-          this.getList()
+          this.doPage()
         }).catch(error => {
           console.log(error)
         })

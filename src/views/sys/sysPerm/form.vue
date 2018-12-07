@@ -1,6 +1,17 @@
 <template>
   <div v-loading="loading" class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+      <el-form-item label="所属菜单">
+        <el-tree
+          ref="menuTree"
+          :data="menuTree"
+          :check-on-click-node="true"
+          :check-strictly="true"
+          node-key="id"
+          show-checkbox
+          accordion
+          @check="menuCheck" />
+      </el-form-item>
       <el-form-item label="权限名称" prop="name"><el-col :span="6"><el-input v-model="form.name" type="text"/></el-col></el-form-item>
       <el-form-item label="权限符号" prop="symbol"><el-col :span="6"><el-input v-model="form.symbol" type="text"/></el-col></el-form-item>
       <el-form-item label="备注" prop="remarks"><el-col :span="6"><el-input v-model="form.remarks" type="textarea"/></el-col></el-form-item>
@@ -13,13 +24,16 @@
 </template>
 
 <script>
-import { apiSave } from '@/api/sys/sysPerm'
+import { apiGetTree, makeTreeLabel } from '@/api/sys/sysMenu'
+import { apiSave, apiGet } from '@/api/sys/sysPerm'
 
 export default {
   data() {
     return {
       loading: false,
+      menuTree: [],
       form: {
+        menuId: null,
         name: null,
         symbol: null,
         remarks: null
@@ -30,8 +44,48 @@ export default {
       }
     }
   },
+  created() {
+    new Promise((resolve, reject) => {
+      this.loading = true
+      apiGetTree().then(response => {
+        this.menuTree = makeTreeLabel(response.data)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    }).then((resolve, reject) => {
+      if (this.$route.params && this.$route.params.id) {
+        apiGet(this.$route.params.id).then(response => {
+
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      }
+      resolve()
+    }).then(() => {
+      this.loading = false
+    }).catch(error => {
+      console.log(error)
+      this.loading = false
+    })
+
+
+
+  },
   methods: {
+    menuCheck(clickNode) {
+      this.$refs.menuTree.setCheckedKeys([clickNode.id])
+      this.form.menuId = clickNode.id
+    },
     onSubmit() {
+      if(!this.form.menuId) {
+        this.$message({
+          message: '请选择所属菜单',
+          type: 'error'
+        })
+        return false
+      }
       this.$refs.form.validate(valid => {
         if(valid) {
           this.loading = true

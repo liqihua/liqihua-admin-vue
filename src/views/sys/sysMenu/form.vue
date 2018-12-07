@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { apiGet, apiGetTree, apiSave } from '@/api/sys/sysMenu'
+import { apiGet, apiGetTree, apiSave, makeTreeLabel } from '@/api/sys/sysMenu'
 
 export default {
   data() {
@@ -89,7 +89,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.loading = true
         apiGetTree().then(response => {
-          this.menuTree = this.makeTreeLabel(response.data)
+          this.menuTree = makeTreeLabel(response.data)
           this.loading = false
           resolve()
         }).catch(error => {
@@ -99,18 +99,7 @@ export default {
         })
       })
     },
-    makeTreeLabel(menuList) {
-      if (menuList) {
-        for (var key in menuList) {
-          menuList[key].label = menuList[key].title
-          if (menuList[key].children) {
-            menuList[key].children = this.makeTreeLabel(menuList[key].children)
-          }
-        }
-      }
-      return menuList
-    },
-    menuCheck(clickNode,checkedArr) {
+    menuCheck(clickNode) {
       this.$refs.menuTree.setCheckedKeys([clickNode.id])
       this.form.pid = clickNode.id
     },

@@ -20,6 +20,8 @@ const API = {
   SYS_PERM: {
     PAGE: '/sys/sysPermWebController/page',
     SAVE: '/sys/sysPermWebController/save',
+    DELETE: '/sys/sysPermWebController/delete',
+    GET: '/sys/sysPermWebController/get',
   }
 }
 

@@ -18,3 +18,19 @@ export function apiSave(formData) {
     data: param
   })
 }
+
+export function apiDelete(id) {
+  return request({
+    url: API.SYS_PERM.DELETE,
+    method: 'post',
+    data: 'id=' + id
+  })
+}
+
+export function apiGet(id) {
+  return request({
+    url: API.SYS_PERM.GET,
+    method: 'get',
+    data: 'id=' + id
+  })
+}

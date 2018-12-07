@@ -34,3 +34,17 @@ export function apiDelete(id) {
   })
 }
 
+export function makeTreeLabel(menuList) {
+  if (menuList) {
+    for (var key in menuList) {
+      if (menuList[key].title) {
+        menuList[key].label = menuList[key].title
+      }
+      if (menuList[key].children) {
+        menuList[key].children = makeTreeLabel(menuList[key].children)
+      }
+    }
+  }
+  return menuList
+}
+

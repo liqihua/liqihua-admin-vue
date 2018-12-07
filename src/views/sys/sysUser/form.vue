@@ -79,7 +79,7 @@ export default {
       this.showInputPassword = false
       this.showBtnPassword = true
       this.rules.password = null
-      return new Promise((resolve, reject) => {
+      new Promise((resolve, reject) => {
         apiGet(this.$route.params.id).then(response => {
           this.loading = false
           this.form = response.data

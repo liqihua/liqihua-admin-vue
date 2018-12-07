@@ -63,10 +63,10 @@ export default {
     }
   },
   created() {
-    this.getList()
+    this.doGetTree()
   },
   methods: {
-    getList() {
+    doGetTree() {
       this.loading = true
       apiGetTree().then(response => {
         this.menuTree = response.data
@@ -84,7 +84,7 @@ export default {
       }).then(() => {
         this.loading = true
         apiDelete(id).then(() => {
-          this.getList()
+          this.doGetTree()
           this.loading = false
         }).catch(error => {
           console.log(error)
