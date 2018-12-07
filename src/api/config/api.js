@@ -15,13 +15,19 @@ const API = {
     GET_TREE: '/sys/sysMenuWebController/getTree',
     DELETE: '/sys/sysMenuWebController/delete',
     GET: '/sys/sysMenuWebController/get',
-    SAVE: '/sys/sysMenuWebController/save',
+    SAVE: '/sys/sysMenuWebController/save'
   },
   SYS_PERM: {
     PAGE: '/sys/sysPermWebController/page',
     SAVE: '/sys/sysPermWebController/save',
     DELETE: '/sys/sysPermWebController/delete',
-    GET: '/sys/sysPermWebController/get',
+    GET: '/sys/sysPermWebController/get'
+  },
+  SYS_ROLE: {
+    PAGE: '/sys/sysRoleWebController/page',
+    SAVE: '/sys/sysRoleWebController/save',
+    DELETE: '/sys/sysRoleWebController/delete',
+    GET: '/sys/sysRoleWebController/get'
   }
 }
 

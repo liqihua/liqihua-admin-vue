@@ -124,6 +124,35 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/sysRole',
+    component: Layout,
+    redirect: '/sysRole/list',
+    name: 'sysRole',
+    meta: { title: '系统角色', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'sysRole-list',
+        component: () => import('@/views/sys/sysRole/list'),
+        meta: { title: '角色列表', icon: 'table' }
+      },
+      {
+        path: 'add',
+        name: 'sysRole-add',
+        component: () => import('@/views/sys/sysRole/form'),
+        meta: { title: '角色添加', icon: 'table' },
+        hidden: true
+      },
+      {
+        path: 'edit/:id',
+        name: 'sysRole-edit',
+        component: () => import('@/views/sys/sysRole/form'),
+        meta: { title: '角色编辑', icon: 'table' },
+        hidden: true
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
