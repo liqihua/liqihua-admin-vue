@@ -34,6 +34,7 @@ export default {
       menuTree: [],
       form: {
         menuId: null,
+        id: null,
         name: null,
         symbol: null,
         remarks: null
@@ -53,16 +54,24 @@ export default {
       }).catch(error => {
         reject(error)
       })
-    }).then((resolve, reject) => {
-      if (this.$route.params && this.$route.params.id) {
-        apiGet(this.$route.params.id).then(response => {
-
+    }).then(() => {
+      return new Promise(((resolve, reject) => {
+        if (this.$route.params && this.$route.params.id) {
+          apiGet(this.$route.params.id).then(response => {
+            this.form.id = response.data.id
+            this.form.name = response.data.name
+            this.form.symbol = response.data.symbol
+            this.form.remarks = response.data.remarks
+            this.form.menuId = response.data.menu.id
+            this.$refs.menuTree.setCheckedKeys([this.form.menuId])
+            resolve()
+          }).catch(error => {
+            reject(error)
+          })
+        } else {
           resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      }
-      resolve()
+        }
+      }))
     }).then(() => {
       this.loading = false
     }).catch(error => {
@@ -104,7 +113,7 @@ export default {
       })
     },
     onCancel() {
-
+      this.$router.push('/sysPerm/list')
     }
   }
 }

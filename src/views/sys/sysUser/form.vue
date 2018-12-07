@@ -36,7 +36,6 @@
       <el-form-item>
         <el-button :loading="loading" type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="onCancel">取消</el-button>
-        <el-button @click="logForm">log</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -130,13 +129,7 @@ export default {
       })
     },
     onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    },
-    logForm() {
-      console.log(this.form)
+      this.$router.push("/sysUser/list");
     },
     uploadAvatarSuccess(res, file) {
       this.form.avatar = res.data

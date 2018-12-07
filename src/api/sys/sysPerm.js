@@ -31,6 +31,6 @@ export function apiGet(id) {
   return request({
     url: API.SYS_PERM.GET,
     method: 'get',
-    data: 'id=' + id
+    params: { id: id }
   })
 }

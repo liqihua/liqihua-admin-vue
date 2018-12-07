@@ -57,7 +57,7 @@ export default {
       }).then(() => {
         this.loading = true
         apiDelete(id).then(response => {
-          this.page()
+          this.doPage()
           this.loading = false
         }).catch(error => {
           console.log(error)
