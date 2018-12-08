@@ -1,19 +1,34 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <el-tabs>
+    <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="角色列表"/>
-      <el-tab-pane><router-link slot="label" to="/sysRole/add">新增角色</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sysRole/add">新增角色</router-link></el-tab-pane>
     </el-tabs>
     <el-table
       :data="list"
       border
       fit
       highlight-current-row>
-      <el-table-column label="角色名称" align="center"><template slot-scope="scope">{{ scope.row.name }}</template></el-table-column>
-      <el-table-column label="备注" align="center"><template slot-scope="scope">{{ scope.row.remarks }}</template></el-table-column>
+      <el-table-column label="角色名称" prop="name" align="center"/>
+      <el-table-column label="拥有菜单" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.menuList">
+            <span v-for="menu in scope.row.menuList ">{{ menu.title }}</span>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="拥有权限" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.permList">
+            <span v-for="perm in scope.row.permList ">{{ perm.name }}</span>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="备注" prop="remarks" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/sysRole/edit/'+scope.row.id">编辑</router-link><br>
+          <router-link :to="'/sysRole/setPerm/'+scope.row.id">分配权限</router-link><br>
           <a @click="doDelete(scope.row.id)">删除</a>
         </template>
       </el-table-column>
@@ -37,6 +52,11 @@ export default {
     this.doPage()
   },
   methods: {
+    tabAddClick(tab) {
+      if(tab && tab.name) {
+        this.$router.push('/sysRole/add')
+      }
+    },
     doPage() {
       this.loading = true
       apiPage(this.page,this.pageSize).then(response => {
@@ -67,3 +87,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  span{ display: block; }
+</style>

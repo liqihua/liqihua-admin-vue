@@ -34,3 +34,12 @@ export function apiGet(id) {
     params: { id: id }
   })
 }
+
+export function apiGetByMenuIds(menuIds) {
+  return request({
+    url: API.SYS_PERM.GET_BY_MENU_IDS,
+    method: 'get',
+    params: { menuIds: menuIds }
+  })
+}
+

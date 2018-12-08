@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <el-tabs>
+    <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="权限列表"/>
-      <el-tab-pane><router-link slot="label" to="/sysPerm/add">新增权限</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sysPerm/add">新增权限</router-link></el-tab-pane>
     </el-tabs>
     <el-table
       :data="list"
@@ -39,6 +39,11 @@ export default {
     this.doPage()
   },
   methods: {
+    tabAddClick(tab) {
+      if(tab && tab.name) {
+        this.$router.push('/sysPerm/add')
+      }
+    },
     doPage() {
       this.loading = true
       apiPage(this.page,this.pageSize).then(response => {

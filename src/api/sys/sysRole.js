@@ -35,3 +35,11 @@ export function apiGet(id) {
   })
 }
 
+export function apiSetPerms(roleId,menuIds,permIds) {
+  return request({
+    url: API.SYS_ROLE.SET_PERMS,
+    method: 'post',
+    data: 'roleId=' + roleId + '&menuIds=' + menuIds + '&permIds=' + permIds
+  })
+}
+

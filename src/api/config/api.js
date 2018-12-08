@@ -21,13 +21,15 @@ const API = {
     PAGE: '/sys/sysPermWebController/page',
     SAVE: '/sys/sysPermWebController/save',
     DELETE: '/sys/sysPermWebController/delete',
-    GET: '/sys/sysPermWebController/get'
+    GET: '/sys/sysPermWebController/get',
+    GET_BY_MENU_IDS: '/sys/sysPermWebController/getByMenuIds'
   },
   SYS_ROLE: {
     PAGE: '/sys/sysRoleWebController/page',
     SAVE: '/sys/sysRoleWebController/save',
     DELETE: '/sys/sysRoleWebController/delete',
-    GET: '/sys/sysRoleWebController/get'
+    GET: '/sys/sysRoleWebController/get',
+    SET_PERMS: '/sys/sysRoleWebController/setPerms'
   }
 }
 

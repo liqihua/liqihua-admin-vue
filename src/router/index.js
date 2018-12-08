@@ -150,6 +150,13 @@ export const constantRouterMap = [
         component: () => import('@/views/sys/sysRole/form'),
         meta: { title: '角色编辑', icon: 'table' },
         hidden: true
+      },
+      {
+        path: 'setPerm/:id',
+        name: 'sysRole-setPerm',
+        component: () => import('@/views/sys/sysRole/setPerm'),
+        meta: { title: '分配权限', icon: 'table' },
+        hidden: true
       }
     ]
   },
