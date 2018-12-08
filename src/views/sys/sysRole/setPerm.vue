@@ -16,8 +16,8 @@
           @check="menuCheck" />
       </el-form-item>
       <el-form-item label="分配权限">
-        <el-checkbox-group v-model="checkedPerms">
-          <el-checkbox v-for="perm in perms" :label="perm.id" :key="perm.id">{{ perm.name }}</el-checkbox>
+        <el-checkbox-group v-model="checkedPermIdArr">
+          <el-checkbox v-for="perm in permList" :label="perm.id" :key="perm.id">{{ perm.name }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
@@ -37,97 +37,107 @@ export default {
   data() {
     return {
       loading: false,
-      menuTree: [],
       role: {
         id: null,
         name: null,
-        remarks: null
+        remarks: null,
+        menuList: [],
+        permList: []
       },
-      perms: [],
-      checkedPerms: [],
-      menuIds: ''
+      menuTree: [],
+      permList: [],
+      checkedPermIdArr: []
     }
   },
   created() {
-    new Promise((resolve, reject) => {
+    if (this.$route.params && this.$route.params.id) {
       this.loading = true
-      apiGetTree().then(response => {
-        this.menuTree = makeTreeLabel(response.data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    }).then(() => {
-      return new Promise((resolve, reject) => {
-        if (this.$route.params && this.$route.params.id) {
-          this.loading = true
-          apiGet(this.$route.params.id).then(response => {
-            this.role = response.data
-            if(response.data.menuList && response.data.menuList.length > 0){
-              let menuIdArr = response.data.menuList.map((menu) => {
-                return menu.id;
-              })
-              this.$refs.menuTree.setCheckedKeys(menuIdArr)
-              this.menuCheck().then(() => {
-                if(response.data.permList && response.data.permList.length > 0){
-                  let permIdArr = response.data.permList.map((perm) => {
-                    return perm.id;
-                  })
-                  let thisPermIdArr = this.perms.map((perm) => {
-                    return perm.id;
-                  })
-                  for(var key in permIdArr){
-                    if(thisPermIdArr.indexOf(permIdArr[key]) != -1) {
-                      this.checkedPerms.push(permIdArr[key])
-                    }
-                  }
-                }
-                resolve()
-              })
-            }else{
-              resolve()
-            }
+      new Promise((resolve, reject) => {
+        apiGet(this.$route.params.id).then(response => {
+          this.role = response.data
+          if(!this.role.menuList){
+            this.role.menuList = []
+          }
+          if(!this.role.permList){
+            this.role.permList = []
+          }
+          console.log('1:获取角色信息完成',this.role)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      }).then(() => {
+        return new Promise((resolve, reject) => {
+          apiGetTree().then(response => {
+            this.menuTree = makeTreeLabel(response.data)
+            console.log('2:获取所有菜单完成',this.menuTree)
+            resolve()
           }).catch(error => {
             reject(error)
           })
-        } else {
-          reject()
-        }
+        })
+      }).then(() => {
+        return new Promise((resolve, reject) => {
+          if(this.role.menuList && this.role.menuList.length > 0){
+            let roleMenuIdArr = this.role.menuList.map((menu) => { return menu.id })
+            this.$refs.menuTree.setCheckedKeys(roleMenuIdArr)
+          }
+          console.log('3:回显角色拥有的菜单完成',this.$refs.menuTree.getCheckedKeys())
+          resolve()
+        })
+      }).then(() => {
+        console.log('4:')
+        return this.refreshPermList()
+      }).then(() => {
+        return new Promise((resolve, reject) => {
+          let rolePermIdArr = this.role.permList.map((perm) => { return perm.id })
+          let permIdArr = this.permList.map((perm) => { return perm.id })
+          for(let key in rolePermIdArr){
+            if(permIdArr.indexOf(rolePermIdArr[key]) != -1){
+              this.checkedPermIdArr.push(rolePermIdArr[key])
+            }
+          }
+          console.log('5:回显角色拥有的权限完成')
+          resolve()
+        })
+      }).then(() => {
+        console.log('finished')
+        this.loading = false
+      }).catch(error => {
+        console.log(error)
+        this.loading = false
       })
-    }).then(() => {
-      this.loading = false
-    }).catch(error => {
-      console.log(error)
-      this.loading = false
+
+    } else {
       this.$message({
-        message: '发生错误',
+        message: '页面跳转错误',
         type: 'error'
       })
-    })
+    }
   },
   methods: {
     menuCheck() {
+      this.refreshPermList()
+    },
+    refreshPermList() {
       return new Promise((resolve, reject) => {
-        let menuIdArr = this.$refs.menuTree.getCheckedKeys()
-        if(menuIdArr && menuIdArr.length > 0){
+        this.permList = []
+        this.checkedPermIdArr = []
+        let checkedMenuIdArr = this.$refs.menuTree.getCheckedKeys()
+        if(checkedMenuIdArr && checkedMenuIdArr.length > 0){
           let menuIds = ''
-          for(var key in menuIdArr){
-            menuIds += (menuIdArr[key] + ',')
+          for(let key in checkedMenuIdArr){
+            menuIds += (checkedMenuIdArr[key] + ',')
           }
-          this.menuIds = menuIds
-          this.loading = true
-          apiGetByMenuIds(this.menuIds).then(response => {
-            this.perms = response.data
-            this.loading = false
+          apiGetByMenuIds(menuIds).then(response => {
+            this.permList = response.data
+            console.log('根据菜单刷新权限列表')
             resolve()
           }).catch(error => {
-            console.log(error)
-            this.loading = false
             reject(error)
           })
-        } else {
-          this.menuIds = ''
-          this.perms = []
+        }else{
+          console.log('根据菜单刷新权限列表')
           resolve()
         }
       })
@@ -140,14 +150,21 @@ export default {
         })
         return false
       }
+      let menuIds = ''
       let permIds = ''
-      if(this.checkedPerms){
-        for(var key in this.checkedPerms){
-          permIds += (this.checkedPerms[key] + ',')
+      let checkedMenuIdArr = this.$refs.menuTree.getCheckedKeys()
+      if(checkedMenuIdArr && checkedMenuIdArr.length > 0) {
+        for(let key in checkedMenuIdArr) {
+          menuIds += (checkedMenuIdArr[key] + ',')
+        }
+      }
+      if(this.checkedPermIdArr && this.checkedPermIdArr.length > 0) {
+        for(let key in this.checkedPermIdArr) {
+          permIds += (this.checkedPermIdArr[key] + ',')
         }
       }
       this.loading = true
-      apiSetPerms(this.role.id,this.menuIds,permIds).then(response => {
+      apiSetPerms(this.role.id,menuIds,permIds).then(response => {
         this.loading = false
         this.$router.push('/sysRole/list')
       }).catch(error => {
