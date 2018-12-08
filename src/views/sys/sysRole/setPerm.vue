@@ -3,7 +3,7 @@
     <el-form label-width="120px">
       <el-form-item label="角色名称"><el-col :span="6"><el-input :disabled="true" v-model="role.name" type="text"/></el-col></el-form-item>
       <el-form-item label="备注"><el-col :span="6"><el-input :disabled="true" v-model="role.remarks" type="textarea"/></el-col></el-form-item>
-      <el-form-item label="选择菜单">
+      <el-form-item label="分配菜单">
         <el-tree
           ref="menuTree"
           :data="menuTree"
@@ -45,7 +45,7 @@ export default {
       },
       perms: [],
       checkedPerms: [],
-      menuIds: null
+      menuIds: ''
     }
   },
   created() {
@@ -68,15 +68,25 @@ export default {
                 return menu.id;
               })
               this.$refs.menuTree.setCheckedKeys(menuIdArr)
-              this.menuCheck()
-            }
-            if(response.data.permList && response.data.permList.length > 0){
-              let permIdArr = response.data.permList.map((perm) => {
-                return perm.id;
+              this.menuCheck().then(() => {
+                if(response.data.permList && response.data.permList.length > 0){
+                  let permIdArr = response.data.permList.map((perm) => {
+                    return perm.id;
+                  })
+                  let thisPermIdArr = this.perms.map((perm) => {
+                    return perm.id;
+                  })
+                  for(var key in permIdArr){
+                    if(thisPermIdArr.indexOf(permIdArr[key]) != -1) {
+                      this.checkedPerms.push(permIdArr[key])
+                    }
+                  }
+                }
+                resolve()
               })
-              this.checkedPerms = permIdArr
+            }else{
+              resolve()
             }
-            resolve()
           }).catch(error => {
             reject(error)
           })
@@ -97,34 +107,35 @@ export default {
   },
   methods: {
     menuCheck() {
-      let menuIdArr = this.$refs.menuTree.getCheckedKeys()
-      if(menuIdArr && menuIdArr.length > 0){
-        let menuIds = ''
-        for(var key in menuIdArr){
-          menuIds += (menuIdArr[key] + ',')
+      return new Promise((resolve, reject) => {
+        let menuIdArr = this.$refs.menuTree.getCheckedKeys()
+        if(menuIdArr && menuIdArr.length > 0){
+          let menuIds = ''
+          for(var key in menuIdArr){
+            menuIds += (menuIdArr[key] + ',')
+          }
+          this.menuIds = menuIds
+          this.loading = true
+          apiGetByMenuIds(this.menuIds).then(response => {
+            this.perms = response.data
+            this.loading = false
+            resolve()
+          }).catch(error => {
+            console.log(error)
+            this.loading = false
+            reject(error)
+          })
+        } else {
+          this.menuIds = ''
+          this.perms = []
+          resolve()
         }
-        this.menuIds = menuIds
-        this.loading = true
-        apiGetByMenuIds(this.menuIds).then(response => {
-          this.perms = response.data
-          this.loading = false
-        }).catch(error => {
-          console.log(error)
-          this.loading = false
-        })
-      }
+      })
     },
     onSubmit() {
       if(!this.role.id){
         this.$message({
           message: '无法获取角色id',
-          type: 'error'
-        })
-        return false
-      }
-      if(!this.menuIds){
-        this.$message({
-          message: '请选择菜单',
           type: 'error'
         })
         return false

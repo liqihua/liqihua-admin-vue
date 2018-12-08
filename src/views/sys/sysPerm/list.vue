@@ -9,10 +9,10 @@
       border
       fit
       highlight-current-row>
-      <el-table-column label="所属菜单" align="center"><template slot-scope="scope">{{ scope.row.menu.title }}</template></el-table-column>
-      <el-table-column label="权限名称" align="center"><template slot-scope="scope">{{ scope.row.perm.name }}</template></el-table-column>
-      <el-table-column label="权限符号" align="center"><template slot-scope="scope">{{ scope.row.perm.symbol }}</template></el-table-column>
-      <el-table-column label="备注" align="center"><template slot-scope="scope">{{ scope.row.perm.remarks }}</template></el-table-column>
+      <el-table-column label="所属菜单" prop="menu.title" align="center"/>
+      <el-table-column label="权限名称" prop="perm.name" align="center"/>
+      <el-table-column label="权限符号" prop="perm.symbol" align="center"/>
+      <el-table-column label="备注" prop="perm.remarks" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/sysPerm/edit/'+scope.row.perm.id">编辑</router-link><br>

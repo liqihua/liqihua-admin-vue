@@ -7,6 +7,7 @@
           :data="menuTree"
           :check-on-click-node="true"
           :check-strictly="true"
+          :default-expand-all="true"
           node-key="id"
           show-checkbox
           accordion

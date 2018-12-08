@@ -9,9 +9,9 @@
       border
       fit
       highlight-current-row>
-      <el-table-column label="账号" align="center"><template slot-scope="scope">{{ scope.row.username }}</template></el-table-column>
-      <el-table-column label="昵称" align="center"><template slot-scope="scope">{{ scope.row.nickname }}</template></el-table-column>
-      <el-table-column label="姓名" align="center"><template slot-scope="scope">{{ scope.row.realName }}</template></el-table-column>
+      <el-table-column label="账号" prop="username" align="center"/>
+      <el-table-column label="昵称" prop="nickname" align="center"/>
+      <el-table-column label="姓名" prop="realName" align="center"/>
       <el-table-column label="性别" align="center"><template slot-scope="scope">{{ scope.row.gender?'男':'女' }}</template></el-table-column>
       <el-table-column label="头像" align="center">
         <template v-if="scope.row.avatar" slot-scope="scope">
