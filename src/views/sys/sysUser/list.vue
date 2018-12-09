@@ -18,14 +18,18 @@
           <img v-if="scope.row.avatar" :src="scope.row.avatar" class="avatar" style="width: 80px;height: 80px;">
         </template>
       </el-table-column>
-      <el-table-column label="手机" align="center"><template slot-scope="scope">{{ scope.row.mobile }}</template></el-table-column>
-      <el-table-column label="备注" align="center"><template slot-scope="scope">{{ scope.row.remarks }}</template></el-table-column>
+      <el-table-column label="手机" prop="mobile" align="center"/>
       <el-table-column label="锁定" align="center"><template slot-scope="scope">{{ scope.row.locked?'冻结':'正常' }}</template></el-table-column>
-      <el-table-column label="创建时间" align="center"><template slot-scope="scope">{{ scope.row.createDate }}</template></el-table-column>
-      <el-table-column label="更新时间" align="center"><template slot-scope="scope">{{ scope.row.updateDate }}</template></el-table-column>
+      <el-table-column label="拥有角色" align="center">
+        <template slot-scope="scope">
+          <span v-for="role in scope.row.roleList" class="span-role">{{ role.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" prop="createDate" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <router-link :to="'/sysUser/edit/'+scope.row.id">编辑</router-link><br>
+          <router-link :to="'/sysUser/setRole/'+scope.row.id">分配角色</router-link><br>
           <a @click="doDelete(scope.row.id)">删除</a>
         </template>
       </el-table-column>
@@ -96,3 +100,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .span-role{display: block;}
+</style>

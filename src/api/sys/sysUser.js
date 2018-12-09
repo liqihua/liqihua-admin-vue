@@ -29,8 +29,16 @@ export function apiGet(id) {
 export function apiSave(formData) {
   var param = makeParam(formData)
   return request({
-    url: '/sys/sysUserWebController/save',
+    url: API.SYS_USER.SAVE,
     method: 'post',
     data: param
+  })
+}
+
+export function apiSetRoles(userId,roleIds) {
+  return request({
+    url: API.SYS_USER.SET_ROLES,
+    method: 'post',
+    data: 'userId=' + userId + '&roleIds=' + roleIds
   })
 }

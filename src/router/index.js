@@ -63,6 +63,13 @@ export const constantRouterMap = [
         component: () => import('@/views/sys/sysUser/form'),
         meta: { title: '用户编辑', icon: 'table' },
         hidden: true
+      },
+      {
+        path: 'setRole/:id',
+        name: 'sysUser-setRole',
+        component: () => import('@/views/sys/sysUser/setRole'),
+        meta: { title: '分配角色', icon: 'table' },
+        hidden: true
       }
     ]
   },

@@ -9,6 +9,7 @@ const API = {
     GET: '/sys/sysUserWebController/get',
     DELETE: '/sys/sysUserWebController/delete',
     SAVE: '/sys/sysUserWebController/save',
+    SET_ROLES: '/sys/sysUserWebController/setRoles',
     UPLOAD_AVATAR: process.env.BASE_API + '/sys/sysUserWebController/uploadAvatar'
   },
   SYS_MENU: {
