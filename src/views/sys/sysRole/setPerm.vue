@@ -110,7 +110,7 @@ export default {
 
     } else {
       this.$message({
-        message: '页面跳转错误',
+        message: '页面错误',
         type: 'error'
       })
     }
