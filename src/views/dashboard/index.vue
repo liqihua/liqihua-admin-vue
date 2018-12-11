@@ -1,21 +1,35 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name:{{ name }}</div>
-    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
+    <div class="dashboard-text">username:{{ user.username }}</div>
+    <div class="dashboard-text">realName:{{ user.realName }}</div>
+    <div class="dashboard-text">nickname:{{ user.nickname }}</div>
+    <div class="dashboard-text">mobile:{{ user.mobile }}</div>
+    <div class="dashboard-text">avatar:{{ user.avatar }}</div>
+    <!--<div class="dashboard-text">name:{{ name }}</div>
+    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>-->
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
+import { getUser } from '@/utils/auth.js'
 
 export default {
   name: 'home',
-  computed: {
+  data() {
+    return {
+      user: null
+    }
+  },
+  created() {
+    this.user = getUser()
+  }
+  /*computed: {
     ...mapGetters([
       'name',
       'roles'
     ])
-  }
+  }*/
 }
 </script>
 

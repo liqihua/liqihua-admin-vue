@@ -15,8 +15,10 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
+      next()
       // 如果全局状态里面用户角色获取不到，就拉取用户信息，再跳转
-      if (store.getters.roles.length === 0) {
+      /*if (store.getters.roles.length === 0) {
+        console.log('aaa')
         store.dispatch('GetInfo').then(res => {
           next()
         }).catch((err) => {
@@ -27,9 +29,10 @@ router.beforeEach((to, from, next) => {
           })
         })
       } else {
+        console.log('bbb')
         // 否则，有角色信息，直接跳转
         next()
-      }
+      }*/
     }
   } else {
     // 没token：如果访问的url在whiteList里，允许跳转

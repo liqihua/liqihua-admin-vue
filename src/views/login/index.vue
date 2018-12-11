@@ -38,6 +38,7 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
+const jsSHA = require("jssha");
 
 export default {
   name: 'Login',
@@ -90,7 +91,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
+
+          //let param = this.loginForm
+          let param = {username: this.loginForm.username,password: this.loginForm.password}
+          let shaObj = new jsSHA("SHA-1", "TEXT");
+          shaObj.update(param.password);
+          param.password = shaObj.getHash("HEX");
+
+          this.$store.dispatch('Login', param).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
