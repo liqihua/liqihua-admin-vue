@@ -2,7 +2,7 @@
   <div v-loading="loading" class="app-container">
     <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="角色列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sysRole/add">新增角色</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysRole/add">新增角色</router-link></el-tab-pane>
     </el-tabs>
     <el-table
       :data="list"
@@ -27,8 +27,8 @@
       <el-table-column label="备注" prop="remarks" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/sysRole/edit/'+scope.row.id">编辑</router-link><br>
-          <router-link :to="'/sysRole/setPerm/'+scope.row.id">分配权限</router-link><br>
+          <router-link :to="'/sys/sysRole/edit/'+scope.row.id">编辑</router-link><br>
+          <router-link :to="'/sys/sysRole/setPerm/'+scope.row.id">分配权限</router-link><br>
           <a @click="doDelete(scope.row.id)">删除</a>
         </template>
       </el-table-column>
@@ -54,7 +54,7 @@ export default {
   methods: {
     tabAddClick(tab) {
       if(tab && tab.name) {
-        this.$router.push('/sysRole/add')
+        this.$router.push('/sys/sysRole/add')
       }
     },
     doPage() {

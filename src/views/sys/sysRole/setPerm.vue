@@ -166,14 +166,14 @@ export default {
       this.loading = true
       apiSetPerms(this.role.id,menuIds,permIds).then(response => {
         this.loading = false
-        this.$router.push('/sysRole/list')
+        this.$router.push('/sys/sysRole/list')
       }).catch(error => {
         console.log(error)
         this.loading = false
       })
     },
     onCancel() {
-      this.$router.push('/sysRole/list')
+      this.$router.push('/sys/sysRole/list')
     }
   }
 }

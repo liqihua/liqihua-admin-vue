@@ -51,7 +51,7 @@ export default {
               type: 'success'
             })
             this.loading = false
-            this.$router.push('/sysRole/list')
+            this.$router.push('/sys/sysRole/list')
           }).catch(error => {
             console.log(error)
             this.loading = false
@@ -60,7 +60,7 @@ export default {
       })
     },
     onCancel() {
-      this.$router.push('/sysRole/list')
+      this.$router.push('/sys/sysRole/list')
     }
   }
 }

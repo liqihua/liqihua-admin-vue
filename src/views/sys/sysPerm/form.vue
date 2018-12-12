@@ -105,7 +105,7 @@ export default {
               type: 'success'
             })
             this.loading = false
-            this.$router.push('/sysPerm/list')
+            this.$router.push('/sys/sysPerm/list')
           }).catch(error => {
             console.log(error)
             this.loading = false
@@ -114,7 +114,7 @@ export default {
       })
     },
     onCancel() {
-      this.$router.push('/sysPerm/list')
+      this.$router.push('/sys/sysPerm/list')
     }
   }
 }

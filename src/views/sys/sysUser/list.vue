@@ -2,7 +2,7 @@
   <div v-loading="loading" class="app-container">
     <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="用户列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sysUser/add">新增用户</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysUser/add">新增用户</router-link></el-tab-pane>
     </el-tabs>
     <el-table
       :data="list"
@@ -28,8 +28,8 @@
       <el-table-column label="创建时间" prop="createDate" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/sysUser/edit/'+scope.row.id">编辑</router-link><br>
-          <router-link :to="'/sysUser/setRole/'+scope.row.id">分配角色</router-link><br>
+          <router-link :to="'/sys/sysUser/edit/'+scope.row.id">编辑</router-link><br>
+          <router-link :to="'/sys/sysUser/setRole/'+scope.row.id">分配角色</router-link><br>
           <a @click="doDelete(scope.row.id)">删除</a>
         </template>
       </el-table-column>
@@ -65,7 +65,7 @@ export default {
   methods: {
     tabAddClick(tab) {
       if(tab && tab.name) {
-        this.$router.push('/sysUser/add')
+        this.$router.push('/sys/sysUser/add')
       }
     },
     doPage() {

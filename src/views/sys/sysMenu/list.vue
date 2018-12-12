@@ -2,10 +2,11 @@
   <div v-loading="loading" class="app-container">
     <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="菜单列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sysMenu/add">新增菜单</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysMenu/add">新增菜单</router-link></el-tab-pane>
     </el-tabs>
     <zk-table
       ref="table"
+      :is-fold="false"
       :data="menuTree"
       :columns="columns"
       :stripe="true"
@@ -17,7 +18,7 @@
         {{ scope.row.hide?'隐藏':'正常' }}
       </template>
       <template slot="operation" slot-scope="scope">
-        <router-link :to="'/sysMenu/edit/'+scope.row.id">编辑</router-link>
+        <router-link :to="'/sys/sysMenu/edit/'+scope.row.id">编辑</router-link>
         <a href="javascript:;" @click="doDelete(scope.row.id)">删除</a>
       </template>
     </zk-table>
@@ -68,7 +69,7 @@ export default {
   methods: {
     tabAddClick(tab) {
       if(tab && tab.name) {
-        this.$router.push('/sysMenu/add')
+        this.$router.push('/sys/sysMenu/add')
       }
     },
     doGetTree() {

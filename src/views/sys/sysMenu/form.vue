@@ -127,7 +127,7 @@ export default {
               type: 'success'
             })
             this.loading = false
-            this.$router.push("/sysMenu/list");
+            this.$router.push("/sys/sysMenu/list");
           }).catch(error => {
             console.log(error)
             this.loading = false
@@ -138,7 +138,7 @@ export default {
       })
     },
     onCancel() {
-      this.$router.push("/sysMenu/list");
+      this.$router.push("/sys/sysMenu/list");
     }
   }
 }

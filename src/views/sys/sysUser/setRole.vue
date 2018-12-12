@@ -121,14 +121,14 @@ export default {
       this.loading = true
       apiSetRoles(this.user.id,roleIds).then(response => {
         this.loading = false
-        this.$router.push('/sysUser/list')
+        this.$router.push('/sys/sysUser/list')
       }).catch(error => {
         console.log(error)
         this.loading = false
       })
     },
     onCancel() {
-      this.$router.push('/sysUser/list')
+      this.$router.push('/sys/sysUser/list')
     }
   }
 }

@@ -2,7 +2,7 @@
   <div v-loading="loading" class="app-container">
     <el-tabs @tab-click="tabAddClick">
       <el-tab-pane label="权限列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sysPerm/add">新增权限</router-link></el-tab-pane>
+      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysPerm/add">新增权限</router-link></el-tab-pane>
     </el-tabs>
     <el-table
       :data="list"
@@ -15,7 +15,7 @@
       <el-table-column label="备注" prop="perm.remarks" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/sysPerm/edit/'+scope.row.perm.id">编辑</router-link><br>
+          <router-link :to="'/sys/sysPerm/edit/'+scope.row.perm.id">编辑</router-link><br>
           <a @click="doDelete(scope.row.perm.id)">删除</a>
         </template>
       </el-table-column>
@@ -41,7 +41,7 @@ export default {
   methods: {
     tabAddClick(tab) {
       if(tab && tab.name) {
-        this.$router.push('/sysPerm/add')
+        this.$router.push('/sys/sysPerm/add')
       }
     },
     doPage() {

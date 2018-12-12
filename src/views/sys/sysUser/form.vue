@@ -118,7 +118,7 @@ export default {
               type: 'success'
             })
             this.loading = false
-            this.$router.push("/sysUser/list");
+            this.$router.push("/sys/sysUser/list");
           }).catch(error => {
             console.log(error)
             this.loading = false
@@ -129,7 +129,7 @@ export default {
       })
     },
     onCancel() {
-      this.$router.push("/sysUser/list");
+      this.$router.push("/sys/sysUser/list");
     },
     uploadAvatarSuccess(res, file) {
       this.form.avatar = res.data
