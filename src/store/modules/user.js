@@ -36,9 +36,6 @@ const user = {
         login(username, userInfo.password).then(response => {
           setToken(response.data.token)
           setUser(response.data.user)
-
-          let token = getToken()
-          console.log('Login token:',token)
           //commit('SET_TOKEN', response.data.token)
           //commit('SET_USER', response.data.user)
           resolve()
