@@ -27,100 +27,90 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/sys/sysMenu/list',
     name: 'sys',
-    meta: {title: '系统设置', icon: 'example'},
+    meta: {title: '系统设置', icon: 'sys'},
     children: [
       {
         path: 'sysMenu/list',
         name: 'sysMenu/list',
         component: () => import('@/views/sys/sysMenu/list'),
-        meta: { title: '系统菜单', icon: 'table' }
+        meta: { title: '系统菜单', icon: 'menu' }
       },
       {
         path: 'sysMenu/add',
         name: 'sysMenu/add',
         component: () => import('@/views/sys/sysMenu/form'),
-        meta: { title: '菜单添加', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysMenu/edit/:id',
         name: 'sysMenu/edit',
         component: () => import('@/views/sys/sysMenu/form'),
-        meta: { title: '菜单编辑', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysPerm/list',
         name: 'sysPerm/list',
         component: () => import('@/views/sys/sysPerm/list'),
-        meta: { title: '系统权限', icon: 'table' }
+        meta: { title: '系统权限', icon: 'perm' }
       },
       {
         path: 'sysPerm/add',
         name: 'sysPerm/add',
         component: () => import('@/views/sys/sysPerm/form'),
-        meta: { title: '权限添加', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysPerm/edit/:id',
         name: 'sysPerm/edit',
         component: () => import('@/views/sys/sysPerm/form'),
-        meta: { title: '权限编辑', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysRole/list',
         name: 'sysRole/list',
         component: () => import('@/views/sys/sysRole/list'),
-        meta: { title: '系统角色', icon: 'table' }
+        meta: { title: '系统角色', icon: 'role' }
       },
       {
         path: 'sysRole/add',
         name: 'sysRole/add',
         component: () => import('@/views/sys/sysRole/form'),
-        meta: { title: '角色添加', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysRole/edit/:id',
         name: 'sysRole/edit',
         component: () => import('@/views/sys/sysRole/form'),
-        meta: { title: '角色编辑', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysRole/setPerm/:id',
         name: 'sysRole/setPerm',
         component: () => import('@/views/sys/sysRole/setPerm'),
-        meta: { title: '分配权限', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysUser/list',
         name: 'sysUser/list',
         component: () => import('@/views/sys/sysUser/list'),
-        meta: { title: '系统用户', icon: 'example' },
+        meta: { title: '系统用户', icon: 'user' },
       },
       {
         path: 'sysUser/add',
         name: 'sysUser/add',
         component: () => import('@/views/sys/sysUser/form'),
-        meta: { title: '用户添加', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysUser/edit/:id',
         name: 'sysUser/edit',
         component: () => import('@/views/sys/sysUser/form'),
-        meta: { title: '用户编辑', icon: 'table' },
         hidden: true
       },
       {
         path: 'sysUser/setRole/:id',
         name: 'sysUser/setRole',
         component: () => import('@/views/sys/sysUser/setRole'),
-        meta: { title: '分配角色', icon: 'table' },
         hidden: true
       }
     ]
