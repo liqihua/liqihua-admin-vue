@@ -35,7 +35,6 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code !== 10000) {
       if(res.code == 42003) {
-        console.log('-- 42003 --')
         store.dispatch('FedLogOut').then(() => {
           location.reload()
         })
