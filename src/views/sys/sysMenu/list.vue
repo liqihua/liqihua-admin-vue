@@ -38,7 +38,7 @@ export default {
       menuTree: [],
       columns: [
         {
-          label: '菜单明恒',
+          label: '菜单名称',
           prop: 'title'
         },
         {

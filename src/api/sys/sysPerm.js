@@ -43,3 +43,10 @@ export function apiGetByMenuIds(menuIds) {
   })
 }
 
+export function apiListGroupByMenuId() {
+  return request({
+    url: API.SYS_PERM.LIST_GROUP_BY_ID,
+    method: 'get'
+  })
+}
+

@@ -23,7 +23,8 @@ const API = {
     SAVE: '/sys/sysPermWebController/save',
     DELETE: '/sys/sysPermWebController/delete',
     GET: '/sys/sysPermWebController/get',
-    GET_BY_MENU_IDS: '/sys/sysPermWebController/getByMenuIds'
+    GET_BY_MENU_IDS: '/sys/sysPermWebController/getByMenuIds',
+    LIST_GROUP_BY_ID: '/sys/sysPermWebController/listGroupByMenuId'
   },
   SYS_ROLE: {
     PAGE: '/sys/sysRoleWebController/page',
