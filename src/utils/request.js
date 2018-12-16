@@ -30,11 +30,13 @@ service.interceptors.response.use(
   response => {
     /**
      * code为非10000是抛错 可结合自己业务进行修改
+     * 42003：未登录
+     * 41201：shiro-未认证
      */
     console.log(response.data)
     const res = response.data
     if (res.code !== 10000) {
-      if(res.code == 42003) {
+      if(res.code == 42003 || res.code == 41201) {
         store.dispatch('FedLogOut').then(() => {
           location.reload()
         })
