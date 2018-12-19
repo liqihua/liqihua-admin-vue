@@ -18,6 +18,8 @@
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
 
+import { dynamicRouterMap } from '@/router'
+
 export default {
   components: { SidebarItem },
   computed: {
@@ -25,7 +27,7 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      return this.$router.options.routes.concat(dynamicRouterMap)
     },
     isCollapse() {
       return !this.sidebar.opened

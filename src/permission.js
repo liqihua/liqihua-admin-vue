@@ -5,9 +5,10 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 import { getToken } from '@/utils/auth' // 验权
 
 const whiteList = ['/login'] // 不重定向白名单
+
+router.addRoutes(dynamicRouterMap)
 router.beforeEach((to, from, next) => {
-  console.log('dynamicRouterMap',dynamicRouterMap)
-  router.addRoutes(dynamicRouterMap)
+
   NProgress.start()
   // 有token
   if (getToken()) {

@@ -8,10 +8,25 @@ import Layout from '../views/layout/Layout'
 
 export const dynamicRouterMap = [
   {
-    path: '/dynamicTest',
-    name: 'dynamicTest',
-    component: () => import('@/views/sys/sysPerm/list'),
-    meta: {title: 'dynamicTest', icon: 'sys'}
+    path: '/test',
+    component: Layout,
+    redirect: '/test/sysMenu/list',
+    name: 'test',
+    meta: {title: 'test', icon: 'sys'},
+    children: [
+      {
+        path: 'sysMenu/list',
+        name: 'test-sysMenu/list',
+        component: () => import('@/views/sys/sysMenu/list'),
+        meta: { title: 'test-sysMenu', icon: 'menu' }
+      },
+      {
+        path: 'sysPerm/list',
+        name: 'test-sysPerm/list',
+        component: () => import('@/views/sys/sysPerm/list'),
+        meta: { title: 'test-sysPerm', icon: 'perm' }
+      }
+    ]
   }
 ]
 
@@ -31,6 +46,27 @@ export const constantRouterMap = [
       component: () => import('@/views/dashboard/index')
     }]
   },
+  /*{
+    path: '/test',
+    component: Layout,
+    redirect: '/test/sysMenu/list',
+    name: 'test',
+    meta: {title: 'test', icon: 'sys'},
+    children: [
+      {
+        path: 'sysMenu/list',
+        name: 'test-sysMenu/list',
+        component: () => import('@/views/sys/sysMenu/list'),
+        meta: { title: 'test-sysMenu', icon: 'menu' }
+      },
+      {
+        path: 'sysPerm/list',
+        name: 'test-sysPerm/list',
+        component: () => import('@/views/sys/sysPerm/list'),
+        meta: { title: 'test-sysPerm', icon: 'perm' }
+      }
+    ]
+  },*/
   {
     path: '/sys',
     component: Layout,
