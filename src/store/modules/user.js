@@ -1,6 +1,5 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken, getUser, setUser, removeUser } from '@/utils/auth'
-import Cookies from 'js-cookie'
+import { getToken, setToken, removeToken, getUser, setUser, removeUser, setMenu, removeMenu } from '@/utils/auth'
 
 const user = {
   state: {
@@ -25,6 +24,7 @@ const user = {
         login(username, userInfo.password).then(response => {
           setToken(response.data.token)
           setUser(response.data.user)
+          setMenu(response.data.menuList)
           resolve()
         }).catch(error => {
           reject(error)
@@ -54,6 +54,7 @@ const user = {
         logout(state.token).then(() => {
           removeToken()
           removeUser()
+          removeMenu()
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,6 +67,7 @@ const user = {
       return new Promise(resolve => {
         removeToken()
         removeUser()
+        removeMenu()
         resolve()
       })
     }

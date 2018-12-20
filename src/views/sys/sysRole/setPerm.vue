@@ -116,7 +116,37 @@ export default {
     }
   },
   methods: {
-    menuCheck() {
+    checkAllParent(clickNode) {
+      if(clickNode && clickNode.id){
+        let checkedArr = this.$refs.menuTree.getCheckedKeys()
+        checkedArr.push(clickNode.id)
+        this.$refs.menuTree.setCheckedKeys(checkedArr)
+        if(clickNode.pid){
+          this.checkAllParent(this.$refs.menuTree.getNode(clickNode.pid).data)
+        }
+      }
+    },
+    disCheckAllChildren(clickNode){
+      if(clickNode.children && clickNode.children.length > 0){
+        let childrenIdArr = clickNode.children.map(c => {return c.id})
+        let checkedArr = this.$refs.menuTree.getCheckedKeys()
+        let newArr = checkedArr.filter(key => {return !childrenIdArr.includes(key)})
+        this.$refs.menuTree.setCheckedKeys(newArr)
+        for(let key in childrenIdArr) {
+          let disNode = this.$refs.menuTree.getNode(childrenIdArr[key]).data
+          this.disCheckAllChildren(disNode)
+        }
+      }
+    },
+    menuCheck(clickNode) {
+      let clickId = clickNode.id
+      let checkedKeys = this.$refs.menuTree.getCheckedKeys()
+      // 如果是勾选，把所有父级也勾选上，如果是取消勾选，把所有子级同时取消勾选
+      if(checkedKeys.includes(clickId)) {
+        this.checkAllParent(clickNode)
+      }else{
+        this.disCheckAllChildren(clickNode)
+      }
       this.refreshPermList()
     },
     refreshPermList() {

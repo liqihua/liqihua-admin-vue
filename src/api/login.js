@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import API from '@/api/config/api.js'
+import { getMenu, setFilterRouter } from '@/utils/auth'
 
 export function login(username, password) {
   return request({

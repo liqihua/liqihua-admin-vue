@@ -3,6 +3,7 @@
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="用户头像" prop="avatar">
         <el-upload
+          :headers="uploadHeader"
           :show-file-list="false"
           :before-upload="beforeAvatarUpload"
           :on-success="uploadAvatarSuccess"
@@ -44,12 +45,15 @@
 <script>
 import API from '@/api/config/api'
 import { apiGet, apiSave } from '@/api/sys/sysUser'
+import { getToken } from '@/utils/auth'
+
 const SHA = require('jssha')
 
 export default {
   data() {
     return {
       loading: false,
+      uploadHeader: null,
       uploadUrl: API.SYS_USER.UPLOAD_AVATAR,
       showInputPassword: true,
       showBtnPassword: false,
@@ -72,6 +76,8 @@ export default {
     }
   },
   created() {
+    this.uploadHeader = {token: getToken()}
+    console.log('uploadHeader',this.uploadHeader)
     this.init()
     if (this.$route.params && this.$route.params.id) {
       this.loading = true
