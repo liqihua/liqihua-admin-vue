@@ -4,6 +4,9 @@ import { getMenu } from '@/api/login'
 
 
 function hasPermission(route, routerNameArr) {
+  if(route.hidden){
+    return true
+  }
   if(routerNameArr && routerNameArr.includes(route.name)){
     return true
   }
