@@ -2,7 +2,8 @@ const API = {
   LOGIN: {
     LOGIN: '/sys/sysLoginWebController/login',
     LOGOUT: '/sys/sysLoginWebController/logout',
-    GET_INFO: '/sys/sysLoginWebController/getInfo'
+    GET_INFO: '/sys/sysLoginWebController/getUserInfo',
+    GET_MENU: '/sys/sysLoginWebController/getUserMenu'
   },
   SYS_USER: {
     PAGE: '/sys/sysUserWebController/page',

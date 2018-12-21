@@ -9,7 +9,8 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
+      <!--<sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>-->
+      <sidebar-item v-for="route in permissionRouters" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
   </el-scrollbar>
 </template>
@@ -18,17 +19,16 @@
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
 
-import { dynamicRouterMap } from '@/router'
-
 export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
+      'permissionRouters',
       'sidebar'
     ]),
-    routes() {
-      return this.$router.options.routes.concat(dynamicRouterMap)
-    },
+    /*routes() {
+      return this.$router.options.routes
+    },*/
     isCollapse() {
       return !this.sidebar.opened
     }

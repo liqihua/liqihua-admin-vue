@@ -1,62 +1,19 @@
 import router from './router'
-import { dynamicRouterMap } from './router'
+import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
-import { getToken, getMenu, getFilterRouter } from '@/utils/auth' // 验权
+import { Message } from 'element-ui'
+
+import { getToken } from '@/utils/auth' // 验权
 
 /**
  * 不用拦截/login
  */
 const whiteList = ['/login']
-var myRouterNameArr = []
-
-
-/**
- * 根据角色过滤路由
- */
-function filterAsyncRouter(routes) {
-  let filterRouterMap = []
-  routes.forEach(r => {
-    let tmp = r
-    if(myRouterNameArr.includes(tmp.name) || tmp.hidden){
-      if(tmp.children){
-        tmp.children = filterAsyncRouter(tmp.children)
-      }
-      filterRouterMap.push(tmp)
-    }
-  })
-  return filterRouterMap
-}
-
-
-
-function makeFilterRouter(){
-  console.log('makeFilterRouter -- start')
-  /**
-   * 获取拥有的菜单的路由名称routerName
-   */
-  if(getMenu()){
-    myRouterNameArr = getMenu().map(menu => {return menu.routerName})
-    console.log('myRouterNameArr',myRouterNameArr)
-    /**
-     * 如果myRouterNameArr不为空，添加动态路由
-     */
-    if(myRouterNameArr) {
-      let filterRouterMap = filterAsyncRouter(dynamicRouterMap)
-      console.log('filterRouterMap')
-      console.log(filterRouterMap)
-      router.addRoutes(filterRouterMap)
-      console.log('router.addRoutes')
-    }
-  }
-  console.log('makeFilterRouter -- end')
-}
-
 
 /**
  * 路由跳转前处理
  */
-makeFilterRouter()
 router.beforeEach((to, from, next) => {
   NProgress.start()
   // 有token
@@ -66,7 +23,36 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      next()
+      console.log("to path:",to.path)
+
+      if(!store.getters.userInfo) {
+        store.dispatch('GetInfo').then(() => {
+          console.log('store.getters.addRouters 1:',store.getters.addRouters.length)
+          if (!store.getters.addRouters || store.getters.addRouters.length < 1) {
+            store.dispatch('GenerateRoutes').then(() => {
+              router.addRoutes(store.getters.addRouters)
+              console.log('store.getters.addRouters 2:',store.getters.addRouters.length)
+              next({ ...to, replace: true })
+            }).catch((err) => {
+              store.dispatch('FedLogOut').then(() => {
+                Message.error(err || '获取菜单失败, 请重新登录')
+                next({ path: '/' })
+              })
+            })
+          }else{
+            next()
+          }
+        }).catch((err) => {
+          store.dispatch('FedLogOut').then(() => {
+            Message.error(err || '用户信息失败, 请重新登录')
+            next({ path: '/' })
+          })
+        })
+      }else{
+        next()
+      }
+
+      //next()
     }
   } else {
     // 没token：如果访问的url在whiteList里，允许跳转

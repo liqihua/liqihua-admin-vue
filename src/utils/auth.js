@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'Admin-Token'
-const UserKey = 'Admin-User'
+/*const UserKey = 'Admin-User'
 const MenuKey = 'Admin-Menu'
-const RouterKey = 'Admin-router'
+const RouterKey = 'Admin-router'*/
 
 /**
  * token操作
@@ -28,6 +28,7 @@ export function removeToken() {
  * 登录用户信息操作
  * @returns {*}
  */
+/*
 export function getUser() {
   let json = Cookies.get(UserKey)
   //let json = sessionStorage.getItem(UserKey)
@@ -47,48 +48,4 @@ export function setUser(user) {
 export function removeUser() {
   Cookies.remove(UserKey)
   //sessionStorage.removeItem(UserKey)
-}
-
-/**
- * 用户菜单操作
- * @param menuList
- */
-export function getMenu() {
-  let json = Cookies.get(MenuKey)
-  //let json = sessionStorage.getItem(MenuKey)
-  if(json) {
-    return JSON.parse(json)
-  }
-  return null
-}
-
-export function setMenu(menuList) {
-  if(menuList){
-    Cookies.set(MenuKey,JSON.stringify(menuList))
-    //sessionStorage.setItem(MenuKey,JSON.stringify(menuList))
-  }
-}
-
-export function removeMenu() {
-  Cookies.remove(MenuKey)
-  //sessionStorage.removeItem(MenuKey)
-}
-/*
-
-export function setFilterRouter(routes) {
-  if(routes){
-    Cookies.set(RouterKey,JSON.stringify(routes))
-  }
-}
-
-export function getFilterRouter() {
-  let json = Cookies.get(RouterKey)
-  if(json) {
-    return JSON.parse(json)
-  }
-  return null
-}
-
-export function removeFilterRouter() {
-  Cookies.remove(RouterKey)
 }*/

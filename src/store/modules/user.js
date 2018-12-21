@@ -1,18 +1,14 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken, getUser, setUser, removeUser, setMenu, removeMenu } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
-    token: getToken(),
-    name: '',
-    avatar: '',
-    roles: [],
-    user: null
+    userInfo: null
   },
 
   mutations: {
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
+    SET_USER_INFO: (state, userInfo) => {
+      state.userInfo = userInfo
     },
   },
 
@@ -23,8 +19,6 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
           setToken(response.data.token)
-          setUser(response.data.user)
-          setMenu(response.data.menuList)
           resolve()
         }).catch(error => {
           reject(error)
@@ -35,16 +29,12 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        let user = getUser()
-        if(!user) {
-          getInfo(state.token).then(response => {
-            setUser(response.data)
-            user = getUser()
-          }).catch(error => {
-            reject(error)
-          })
-        }
-        resolve()
+        getInfo(state.token).then(response => {
+          commit('SET_USER_INFO', response.data)
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 
@@ -53,8 +43,7 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           removeToken()
-          removeUser()
-          removeMenu()
+          commit('SET_USER_INFO', null)
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,8 +55,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         removeToken()
-        removeUser()
-        removeMenu()
+        commit('SET_USER_INFO', null)
         resolve()
       })
     }

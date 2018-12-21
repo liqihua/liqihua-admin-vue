@@ -6,7 +6,58 @@ Vue.use(Router)
 import Layout from '../views/layout/Layout'
 
 
-export const dynamicRouterMap = [
+export const asyncRouterMap = [
+  {
+    path: '/test',
+    name: '/test',
+    component: Layout,
+    redirect: '/test/testa',
+    meta: {title: '测试', icon: 'sys'},
+    children: [
+      {
+        path: 'testa',
+        name: 'testa',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '测试a', icon: 'menu' }
+      },
+      {
+        path: 'testb',
+        name: 'testb',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '测试b', icon: 'perm' }
+      },
+      {
+        path: 'testc',
+        name: 'testc',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '测试c', icon: 'perm' }
+      },
+      {
+        path: 'testd',
+        name: 'testd',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '测试d', icon: 'perm' }
+      }
+    ]
+  }
+]
+
+
+export const constantRouterMap = [
+  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+  { path: '/404', component: () => import('@/views/404'), hidden: true },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/home',
+    name: 'home',
+    meta: { title: '首页'},
+    hidden: true,
+    children: [{
+      path: 'home',
+      component: () => import('@/views/dashboard/index')
+    }]
+  },
   {
     path: '/sys',
     component: Layout,
@@ -99,81 +150,6 @@ export const dynamicRouterMap = [
         hidden: true
       }
     ]
-  },
-  {
-    path: '/test',
-    name: '/test',
-    component: Layout,
-    redirect: '/test/testa',
-    meta: {title: '测试', icon: 'sys'},
-    children: [
-      {
-        path: 'testa',
-        name: 'testa',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试a', icon: 'menu' },
-        children: [
-          {
-            path: 'testa1',
-            name: 'testa1',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '测试a1', icon: 'menu' },
-          }
-        ]
-      },
-      {
-        path: 'testb',
-        name: 'testb',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试b', icon: 'perm' },
-        children: [
-          {
-            path: 'testb1',
-            name: 'testb1',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '测试b1', icon: 'menu' },
-            children: [
-              {
-                path: 'testb11',
-                name: 'testb11',
-                component: () => import('@/views/dashboard/index'),
-                meta: { title: '测试b11', icon: 'menu' },
-              },
-              {
-                path: 'testb12',
-                name: 'testb12',
-                component: () => import('@/views/dashboard/index'),
-                meta: { title: '测试b12', icon: 'menu' },
-              }
-            ]
-          },
-          {
-            path: 'testb2',
-            name: 'testb2',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '测试b2', icon: 'menu' }
-          }
-        ]
-      }
-    ]
-  }
-]
-
-
-export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/home',
-    name: 'home',
-    meta: { title: '首页'},
-    hidden: true,
-    children: [{
-      path: 'home',
-      component: () => import('@/views/dashboard/index')
-    }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ]
