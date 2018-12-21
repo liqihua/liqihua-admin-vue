@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <el-tabs @tab-click="tabAddClick">
-      <el-tab-pane label="权限列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysPerm/add">新增权限</router-link></el-tab-pane>
+    <el-tabs value="list" @tab-click="tabClick">
+      <el-tab-pane label="权限列表" name="list"/>
+      <el-tab-pane label="新增权限" name="add"/>
     </el-tabs>
     <zk-table
       ref="table"
@@ -66,8 +66,8 @@ export default {
     this.doPage()
   },
   methods: {
-    tabAddClick(tab) {
-      if(tab && tab.name) {
+    tabClick(tab) {
+      if(tab.name == 'add') {
         this.$router.push('/sys/sysPerm/add')
       }
     },

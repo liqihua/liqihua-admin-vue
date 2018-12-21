@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
+    <el-tabs value="add" @tab-click="tabClick">
+      <el-tab-pane label="菜单列表" name="list"/>
+      <el-tab-pane label="新增菜单" name="add"/>
+    </el-tabs>
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="父级菜单">
         <el-tree
@@ -77,6 +81,11 @@ export default {
     })
   },
   methods: {
+    tabClick(tab) {
+      if(tab.name == 'list') {
+        this.$router.push('/sys/sysMenu/list')
+      }
+    },
     init() {
       this.form.pid = null
       this.form.id = null

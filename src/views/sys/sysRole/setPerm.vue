@@ -208,7 +208,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .el-checkbox{display: block;margin-left: 0;}
-</style>

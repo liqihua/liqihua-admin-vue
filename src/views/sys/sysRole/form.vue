@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
+    <el-tabs value="add" @tab-click="tabClick">
+      <el-tab-pane label="角色列表" name="list"/>
+      <el-tab-pane label="新增角色" name="add"/>
+    </el-tabs>
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="角色名称" prop="name"><el-col :span="6"><el-input v-model="form.name" type="text"/></el-col></el-form-item>
       <el-form-item label="备注" prop="remarks"><el-col :span="6"><el-input v-model="form.remarks" type="textarea"/></el-col></el-form-item>
@@ -41,6 +45,11 @@ export default {
     }
   },
   methods: {
+    tabClick(tab) {
+      if(tab.name == 'list') {
+        this.$router.push('/sys/sysRole/list')
+      }
+    },
     onSubmit() {
       this.$refs.form.validate(valid => {
         if(valid) {

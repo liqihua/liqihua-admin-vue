@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <el-tabs @tab-click="tabAddClick">
-      <el-tab-pane label="菜单列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysMenu/add">新增菜单</router-link></el-tab-pane>
+    <el-tabs value="list" @tab-click="tabClick">
+      <el-tab-pane label="菜单列表" name="list"/>
+      <el-tab-pane label="新增菜单" name="add"/>
     </el-tabs>
     <zk-table
       ref="table"
@@ -67,8 +67,8 @@ export default {
     this.doGetTree()
   },
   methods: {
-    tabAddClick(tab) {
-      if(tab && tab.name) {
+    tabClick(tab) {
+      if(tab.name == 'add') {
         this.$router.push('/sys/sysMenu/add')
       }
     },

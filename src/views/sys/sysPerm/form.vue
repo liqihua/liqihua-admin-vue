@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
+    <el-tabs value="add" @tab-click="tabClick">
+      <el-tab-pane label="权限列表" name="list"/>
+      <el-tab-pane label="新增权限" name="add"/>
+    </el-tabs>
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="所属菜单">
         <el-tree
@@ -79,11 +83,13 @@ export default {
       console.log(error)
       this.loading = false
     })
-
-
-
   },
   methods: {
+    tabClick(tab) {
+      if(tab.name == 'list') {
+        this.$router.push('/sys/sysPerm/list')
+      }
+    },
     menuCheck(clickNode) {
       this.$refs.menuTree.setCheckedKeys([clickNode.id])
       this.form.menuId = clickNode.id

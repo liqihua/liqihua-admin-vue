@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <el-tabs @tab-click="tabAddClick">
-      <el-tab-pane label="用户列表"/>
-      <el-tab-pane name="add"><router-link slot="label" to="/sys/sysUser/add">新增用户</router-link></el-tab-pane>
+    <el-tabs value="list" @tab-click="tabClick">
+      <el-tab-pane label="用户列表" name="list"/>
+      <el-tab-pane label="新增用户" name="add"/>
     </el-tabs>
     <el-table
       :data="list"
@@ -63,8 +63,8 @@ export default {
     this.doPage()
   },
   methods: {
-    tabAddClick(tab) {
-      if(tab && tab.name) {
+    tabClick(tab) {
+      if(tab.name == 'add') {
         this.$router.push('/sys/sysUser/add')
       }
     },

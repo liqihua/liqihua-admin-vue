@@ -1,5 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
+    <el-tabs value="add" @tab-click="tabClick">
+      <el-tab-pane label="用户列表" name="list"/>
+      <el-tab-pane label="新增用户" name="add"/>
+    </el-tabs>
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
       <el-form-item label="用户头像" prop="avatar">
         <el-upload
@@ -96,6 +100,11 @@ export default {
     }
   },
   methods: {
+    tabClick(tab) {
+      if(tab.name == 'list') {
+        this.$router.push('/sys/sysUser/list')
+      }
+    },
     init() {
       this.form.id = null
       this.form.avatar = ''

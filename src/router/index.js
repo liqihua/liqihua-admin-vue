@@ -111,7 +111,21 @@ export const asyncRouterMap = [
         path: 'testa',
         name: 'testa',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试a', icon: 'menu' }
+        meta: { title: '测试a', icon: 'menu' },
+        children: [
+          {
+            path: 'testa1',
+            name: 'testa1',
+            component: () => import('@/views/dashboard/index'),
+            meta: { title: '测试a1', icon: 'menu' }
+          },
+          {
+            path: 'testa2',
+            name: 'testa2',
+            component: () => import('@/views/dashboard/index'),
+            meta: { title: '测试a2', icon: 'menu' }
+          }
+        ]
       },
       {
         path: 'testb',
