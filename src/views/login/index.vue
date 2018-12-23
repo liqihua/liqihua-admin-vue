@@ -96,6 +96,7 @@ export default {
 
           this.$store.dispatch('Login', param).then(() => {
             this.loading = false
+            console.log('this.redirect',this.redirect)
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
             this.loading = false

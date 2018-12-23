@@ -4,7 +4,8 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img :src="userInfo.avatar" class="user-avatar">
+        <img v-if="userInfo && userInfo.avatar" :src="userInfo.avatar" class="user-avatar">
+        <img v-else src="@/assets/default_images/default_avatar.png" class="user-avatar"/>
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">

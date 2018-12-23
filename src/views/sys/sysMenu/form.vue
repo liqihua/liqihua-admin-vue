@@ -19,7 +19,7 @@
       </el-form-item>
       <el-form-item label="菜单标题" prop="title"><el-col :span="6"><el-input v-model="form.title" type="text"/></el-col></el-form-item>
       <el-form-item label="路由名称" prop="routerName"><el-col :span="6"><el-input v-model="form.routerName" type="text"/></el-col></el-form-item>
-      <el-form-item label="排序" prop="rank"><el-col :span="6"><el-input v-model="form.rank" type="text"/></el-col></el-form-item>
+      <el-form-item label="排序" prop="rankNum"><el-col :span="6"><el-input v-model="form.rankNum" type="text"/></el-col></el-form-item>
       <el-form-item label="隐藏" prop="hide">
         <el-switch v-model="form.hide"/>
       </el-form-item>
@@ -42,13 +42,13 @@ export default {
         id: null,
         title: '',
         routerName: '',
-        rank: 999,
+        rankNum: 999,
         hide: false
       },
       rules: {
         title: [{ required: true, trigger: 'blur', message: '菜单标题不能为空' }],
         routerName: [{ required: true, trigger: 'blur', message: '路由名称不能为空' }],
-        rank: [{ required: true, trigger: 'blur', message: '排序值不能为空' }],
+        rankNum: [{ required: true, trigger: 'blur', message: '排序值不能为空' }],
         hide: [{ required: true, trigger: 'blur', message: '是否隐藏不能为空' }]
       },
       loading: false
@@ -91,7 +91,7 @@ export default {
       this.form.id = null
       this.form.title = ''
       this.form.routerName = ''
-      this.form.rank = 999
+      this.form.rankNum = 999
       this.form.hide = false
     },
     getMenuTree() {
@@ -122,7 +122,7 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          if (isNaN(this.form.rank)) {
+          if (isNaN(this.form.rankNum)) {
             this.$message({
               message: '排序值必须是数字',
               type: 'error'
