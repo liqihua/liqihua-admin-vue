@@ -1,8 +1,8 @@
 <template>
     <div v-loading="loading" class="app-container">
         <el-tabs value="add" @tab-click="tabClick">
-            <el-tab-pane label="test_person人员表列表" name="list"/>
-            <el-tab-pane label="新增test_person人员表" name="add"/>
+            <el-tab-pane label="测试人员列表" name="list"/>
+            <el-tab-pane label="新增测试人员" name="add"/>
         </el-tabs>
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
             <el-form-item label="头像" prop="avatar">
@@ -98,14 +98,14 @@ export default {
     methods: {
         tabClick(tab) {
             if(tab.name == 'list') {
-                this.$router.push('/sys/sysUser/list')
+                this.$router.push('/testPerson/list')
             }
         },
         onSubmit() {
 
         },
         onCancel() {
-            this.$router.push("/sys/sysUser/list");
+            this.$router.push("/testPerson/list");
         }
     }
 }
