@@ -161,10 +161,18 @@ export const constantRouterMap = [
     name: 'home',
     meta: { title: '首页'},
     hidden: true,
-    children: [{
-      path: 'home',
-      component: () => import('@/views/dashboard/index')
-    }]
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/dashboard/index')
+      },
+      {
+        path: '/codeMake',
+        name: '/codeMake',
+        component: () => import('@/views/test/form'),
+        meta: { title: '代码生成', icon: 'menu' }
+      }
+    ]
   }
 ]
 
