@@ -8,6 +8,33 @@ import Layout from '../views/layout/Layout'
 
 export const asyncRouterMap = [
   {
+    path: '/pro',
+    component: Layout,
+    redirect: '/pro/testPerson/list',
+    name: 'pro',
+    meta: {title: '数据管理', icon: 'sys'},
+    children: [
+      {
+        path: 'testPerson/list',
+        name: 'testPerson/list',
+        component: () => import('@/views/testPerson/list'),
+        meta: { title: '测试人员', icon: 'menu' }
+      },
+      {
+        path: 'testPerson/add',
+        name: 'testPerson/add',
+        component: () => import('@/views/testPerson/form'),
+        hidden: true
+      },
+      {
+        path: 'testPerson/edit/:id',
+        name: 'testPerson/edit',
+        component: () => import('@/views/testPerson/form'),
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/sys',
     component: Layout,
     redirect: '/sys/sysMenu/list',
@@ -165,12 +192,6 @@ export const constantRouterMap = [
       {
         path: 'home',
         component: () => import('@/views/dashboard/index')
-      },
-      {
-        path: '/codeMake',
-        name: '/codeMake',
-        component: () => import('@/views/test/form'),
-        meta: { title: '代码生成', icon: 'menu' }
       }
     ]
   }
