@@ -55,11 +55,11 @@ export default {
         if(valid) {
           this.loading = true
           apiSave(this.form).then(response => {
+            this.loading = false
             this.$message({
               message: '保存成功',
               type: 'success'
             })
-            this.loading = false
             this.$router.push('/sys/sysRole/list')
           }).catch(error => {
             console.log(error)
