@@ -33,6 +33,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination background layout="total, sizes, prev, pager, next" :total="total" :page-sizes="[pageSize,60]" :page-size="pageSize" :current-page="page" @current-change="pageClick" @size-change="pageSizeChange"></el-pagination>
   </div>
 </template>
 
@@ -43,9 +44,10 @@ export default {
   data() {
     return {
       loading: false,
-      list: [],
       page: 1,
-      pageSize: 30
+      pageSize: 30,
+      total: 0,
+      list: []
     }
   },
   created() {
@@ -61,6 +63,7 @@ export default {
       this.loading = true
       apiPage(this.page,this.pageSize).then(response => {
         this.list = response.data.records
+        this.total = response.data.total
         this.loading = false
       }).catch(error => {
         console.log(error)
@@ -82,7 +85,16 @@ export default {
           this.loading = false
         })
       })
-
+    },
+    pageClick(clickPage){
+      if(clickPage != this.page){
+        this.page = clickPage
+        this.doPage()
+      }
+    },
+    pageSizeChange(pageSize){
+      this.pageSize = pageSize
+      this.doPage()
     }
   }
 }
