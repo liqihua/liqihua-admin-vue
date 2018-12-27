@@ -54,7 +54,7 @@ export default {
         doPage() {
             this.loading = true
             request({
-                url: '/api/testPersonApiController/page',
+                url: '/sys/testPersonWebController/page',
                 method: 'get',
                 params: { page:this.page, pageSize:this.pageSize }
             }).then(response => {
@@ -62,7 +62,7 @@ export default {
                 this.total = response.data.total
                 this.loading = false
             }).catch(error => {
-                console.log(error)
+                    console.log(error)
                 this.loading = false
             })
         },
@@ -74,14 +74,14 @@ export default {
             }).then(() => {
                 this.loading = true
                 request({
-                    url: '/api/testPersonApiController/delete',
+                    url: '/sys/testPersonWebController/delete',
                     method: 'post',
                     data: 'id=' + id
                 }).then(response => {
                     this.doPage()
                     this.loading = false
                 }).catch(error => {
-                        console.log(error)
+                    console.log(error)
                     this.loading = false
                 })
             })

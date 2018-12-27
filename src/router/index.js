@@ -5,7 +5,9 @@ Vue.use(Router)
 
 import Layout from '../views/layout/Layout'
 
-
+/**
+ * 动态路由
+ */
 export const asyncRouterMap = [
   {
     path: '/pro',
@@ -124,53 +126,6 @@ export const asyncRouterMap = [
         name: 'sysUser/setRole',
         component: () => import('@/views/sys/sysUser/setRole'),
         hidden: true
-      }
-    ]
-  },
-  {
-    path: '/test',
-    name: '/test',
-    component: Layout,
-    redirect: '/test/testa',
-    meta: {title: '测试', icon: 'sys'},
-    children: [
-      {
-        path: 'testa',
-        name: 'testa',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试a', icon: 'menu' },
-        children: [
-          {
-            path: 'testa1',
-            name: 'testa1',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '测试a1', icon: 'menu' }
-          },
-          {
-            path: 'testa2',
-            name: 'testa2',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '测试a2', icon: 'menu' }
-          }
-        ]
-      },
-      {
-        path: 'testb',
-        name: 'testb',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试b', icon: 'perm' }
-      },
-      {
-        path: 'testc',
-        name: 'testc',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试c', icon: 'perm' }
-      },
-      {
-        path: 'testd',
-        name: 'testd',
-        component: () => import('@/views/dashboard/index'),
-        meta: { title: '测试d', icon: 'perm' }
       }
     ]
   },

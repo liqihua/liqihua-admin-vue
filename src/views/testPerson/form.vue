@@ -100,7 +100,7 @@ export default {
         if (this.$route.params && this.$route.params.id) {
             this.loading = true
             request({
-                url: '/api/testPersonApiController/get',
+                url: '/sys/testPersonWebController/get',
                 method: 'get',
                 params: { id: this.$route.params.id }
             }).then(response => {
@@ -124,7 +124,7 @@ export default {
                     this.loading = true
                     var param = makeParam(this.form)
                     return request({
-                        url: '/api/testPersonApiController/save',
+                        url: '/sys/testPersonWebController/save',
                         method: 'post',
                         data: param
                     }).then(() => {
@@ -135,7 +135,7 @@ export default {
                         })
                         this.$router.push(listPath)
                     }).catch(error => {
-                            console.log(error)
+                        console.log(error)
                         this.loading = false
                     })
                 }
