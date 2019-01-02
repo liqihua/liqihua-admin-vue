@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import API from '@/api/config/api.js'
+import { makeParam } from '@/utils/strutil'
 
 export function login(username, password) {
   return request({
@@ -27,5 +28,14 @@ export function logout() {
   return request({
     url: API.LOGIN.LOGOUT,
     method: 'get'
+  })
+}
+
+export function apiUpdateUser(formData) {
+  var param = makeParam(formData)
+  return request({
+    url: API.LOGIN.UPDATE_USER,
+    method: 'post',
+    data: param
   })
 }

@@ -12,7 +12,13 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    console.log(config.url)
+    console.log(config.method + ' ' + config.url)
+    if(config.params) {
+      console.log('params:',config.params)
+    }
+    if(config.data) {
+      console.log('data:',config.data)
+    }
     if (getToken()) {
       config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
@@ -33,7 +39,7 @@ service.interceptors.response.use(
      * 42003：未登录
      * 41201：shiro-未认证
      */
-    console.log(response.data)
+    console.log('response',response.data)
     const res = response.data
     if (res.code !== 10000) {
       if(res.code == 42003 || res.code == 41201) {
@@ -44,7 +50,7 @@ service.interceptors.response.use(
         Message({
           message: res.message,
           type: 'error',
-          duration: 5 * 1000
+          duration: 10 * 1000
         })
       }
       return Promise.reject('error')

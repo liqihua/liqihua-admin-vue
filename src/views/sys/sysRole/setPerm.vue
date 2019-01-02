@@ -16,6 +16,7 @@
           @check="menuCheck" />
       </el-form-item>
       <el-form-item label="分配权限">
+        <el-checkbox class="check-all" v-model="checkAll" @change="checkAllChange">全选</el-checkbox><br>
         <el-checkbox-group v-model="checkedPermIdArr">
           <el-checkbox v-for="perm in permList" :label="perm.id" :key="perm.id">{{ perm.name }}</el-checkbox>
         </el-checkbox-group>
@@ -37,6 +38,7 @@ export default {
   data() {
     return {
       loading: false,
+      checkAll: false,
       role: {
         id: null,
         name: null,
@@ -89,7 +91,7 @@ export default {
         console.log('4:')
         return this.refreshPermList()
       }).then(() => {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           let rolePermIdArr = this.role.permList.map((perm) => { return perm.id })
           let permIdArr = this.permList.map((perm) => { return perm.id })
           for(let key in rolePermIdArr){
@@ -98,6 +100,13 @@ export default {
             }
           }
           console.log('5:回显角色拥有的权限完成')
+          resolve()
+        })
+      }).then(() => {
+        return new Promise(resolve => {
+          if(this.checkedPermIdArr.length == this.permList.length){
+            this.checkAll = true
+          }
           resolve()
         })
       }).then(() => {
@@ -116,6 +125,13 @@ export default {
     }
   },
   methods: {
+    checkAllChange(checked) {
+      if(checked){
+        this.checkedPermIdArr = this.permList.map((perm) => { return perm.id })
+      }else{
+        this.checkedPermIdArr = []
+      }
+    },
     checkAllParent(clickNode) {
       if(clickNode && clickNode.id){
         let checkedArr = this.$refs.menuTree.getCheckedKeys()
@@ -151,6 +167,7 @@ export default {
     },
     refreshPermList() {
       return new Promise((resolve, reject) => {
+        this.checkAll = false
         this.permList = []
         this.checkedPermIdArr = []
         let checkedMenuIdArr = this.$refs.menuTree.getCheckedKeys()

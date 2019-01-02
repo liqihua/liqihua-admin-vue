@@ -81,7 +81,6 @@ export default {
   },
   created() {
     this.uploadHeader = {token: getToken()}
-    console.log('uploadHeader',this.uploadHeader)
     this.init()
     if (this.$route.params && this.$route.params.id) {
       this.loading = true

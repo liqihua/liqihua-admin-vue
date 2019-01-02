@@ -141,12 +141,19 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/home',
     name: 'home',
-    meta: { title: '首页'},
-    hidden: true,
+    meta: {title: '管理平台', icon: 'platform'},
+    hidden: false,
     children: [
       {
         path: 'home',
-        component: () => import('@/views/dashboard/index')
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '平台首页', icon: 'home' }
+      },
+      {
+        path: 'info',
+        name: 'info',
+        component: () => import('@/views/sys/sysUser/userInfo'),
+        meta: { title: '个人信息', icon: 'userInfo' }
       }
     ]
   }

@@ -23,15 +23,11 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      console.log("to path:",to.path)
-
       if(!store.getters.userInfo) {
         store.dispatch('GetInfo').then(() => {
-          console.log('store.getters.addRouters 1:',store.getters.addRouters.length)
           if (!store.getters.addRouters || store.getters.addRouters.length < 1) {
             store.dispatch('GenerateRoutes').then(() => {
               router.addRoutes(store.getters.addRouters)
-              console.log('store.getters.addRouters 2:',store.getters.addRouters.length)
               next({ ...to, replace: true })
             }).catch((err) => {
               store.dispatch('FedLogOut').then(() => {
@@ -51,8 +47,6 @@ router.beforeEach((to, from, next) => {
       }else{
         next()
       }
-
-      //next()
     }
   } else {
     // 没token：如果访问的url在whiteList里，允许跳转
